@@ -8,9 +8,10 @@ use Logotel\Logobot\Exceptions\UserInvalidException;
 use Logotel\Logobot\Manager;
 use PHPUnit\Framework\TestCase;
 
-class JwtManagerTest extends TestCase{
-
-    public function test_jwt_generation_is_ok(){
+class JwtManagerTest extends TestCase
+{
+    public function test_jwt_generation_is_ok()
+    {
 
         $email = 'test@email.com';
         $identifier = '12345';
@@ -34,7 +35,8 @@ class JwtManagerTest extends TestCase{
 
     }
 
-    public function test_jwt_from_key_file_generation_is_ok(){
+    public function test_jwt_from_key_file_generation_is_ok()
+    {
 
         $email = 'test@email.com';
         $identifier = '12345';
@@ -58,7 +60,8 @@ class JwtManagerTest extends TestCase{
 
     }
 
-    public function test_jwt_generation_is_failing(){
+    public function test_jwt_generation_is_failing()
+    {
 
         $email = 'test@email.com';
         $identifier = '12345';
@@ -82,7 +85,8 @@ class JwtManagerTest extends TestCase{
 
     }
 
-    public function test_payload_validation(){
+    public function test_payload_validation()
+    {
 
         try {
             $email = 'test';

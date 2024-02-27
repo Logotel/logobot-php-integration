@@ -2,14 +2,15 @@
 
 namespace Logotel\Logobot;
 
-
-class Manager{
-
-    public static function jwt() : JwtManager{
+class Manager
+{
+    public static function jwt(): JwtManager
+    {
         return new JwtManager();
     }
 
-    public static function bulkImporter(){
+    public static function bulkImporter()
+    {
         return "";
     }
 }

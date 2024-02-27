@@ -1,21 +1,55 @@
-# QuickMarks
- 
-QuickMarks is an analytics app for web projects. It helps you track events on your websites. It is built using Rails, Devise, and a few charting libraries.
+<p align="center">
+    <img src=".art/logotel-logo.png" width="200" alt="Logotel Logo">    
+</p>
 
-Quickmarks analytics offers a few key features:  
-- A client-side JavaScript snippet that allows a user to track events on their website  
-- A server-side API that captures and saves those events to a database  
-- A Rails application that displays the captured event data for a user  
+# Logobot PHP integration
+ 
+This package aim to provide the integration with Logobot
  
 ## Installation
  
-Here's how you track your website with Quickmarks:
+Install via composer:
  
-TODO: **ADD INFO**
+```bash
+composer require logotel/logobot-php-integration
+```
  
 ## Usage
  
-TODO: Write usage instructions
+Generate your JWT with:
+
+```php
+$jwt = Manager::jwt()
+        ->setKey(file_get_contents('/path/to/private_key.pem'))
+        ->setLicense($license)
+        ->setEmail($email)
+        ->setIdentifier($identifier)
+        ->setPermissions($permissions)
+        ->generate();
+```
+
+The key can be retrieved by a file path:
+
+```php
+$jwt = Manager::jwt()
+        ->setKeyFromFile('/path/to/private_key.pem')
+        ->setLicense($license)
+        ->setEmail($email)
+        ->setIdentifier($identifier)
+        ->setPermissions($permissions)
+        ->generate();
+```
+
+### User payload
+
+| Parameter  | Type          | Description                          |
+|------------|---------------|--------------------------------------|
+| email      | String        | The email address of the user        |
+| identifier | String        | The user identifier                  |
+| license    | String        | The bot license                      |
+| permissions| Array(String) | The user's permissions               |
+
+
  
 ## Contributing
  
@@ -27,21 +61,25 @@ TODO: Write usage instructions
  
 ## History
  
-Version 0.1 (2015-05-23) - adding Devise and core Rails functionality
- 
+Version 1.00 (2024-02-27) - first commit
+
+### Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+### Security
+
+If you discover any security related issues, please email giagara@yahoo.it instead of using the issue tracker.
+
 ## Credits
- 
-Lead Developer - Chris Kibble (@ckib16)
-Mentor - Chris Beck (@christopherbeck)
- 
+
+-   [Garavaglia Giacomo](https://github.com/giagara)
+-   [All Contributors](../../contributors)
+
 ## License
- 
-The MIT License (MIT)
 
-Copyright (c) 2015 Chris Kibble
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
