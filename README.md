@@ -2,9 +2,8 @@
     <img src=".art/logotel-logo.png" width="200" alt="Logotel Logo">    
 </p>
 
-<p align="center">
-    [![Tests](https://github.com/Logotel/logobot-php-integration/actions/workflows/test.yml/badge.svg)](https://github.com/Logotel/logobot-php-integration/actions/workflows/test.yml)
-</p>
+![Tests](https://github.com/Logotel/logobot-php-integration/actions/workflows/test.yml/badge.svg?branch=main)
+
 
 # Logobot PHP integration
  
