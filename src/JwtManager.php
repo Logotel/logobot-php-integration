@@ -3,6 +3,7 @@
 namespace Logotel\Logobot;
 
 use Firebase\JWT\JWT;
+use Logotel\Logobot\Exceptions\KeyFileNotFound;
 use Logotel\Logobot\Exceptions\UserInvalidException;
 use Logotel\Logobot\Validator\Validation;
 
@@ -36,8 +37,8 @@ class JwtManager
     public function setKeyFromFile(string $file_path): self
     {
 
-        if(!file_exists($file_path.".asd")) {
-            throw new \Exception("File not found");
+        if(!file_exists($file_path)) {
+            throw new KeyFileNotFound("Key file not found");
         }
 
         $this->setKey(file_get_contents($file_path));
