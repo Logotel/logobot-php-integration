@@ -16,8 +16,8 @@ namespace Logotel\Logobot\Validator;
 class Validation
 {
     protected string $name;
-    protected mixed $value;
-    protected mixed $file;
+    protected $value;
+    protected $file;
 
     /**
      * @var array $patterns
