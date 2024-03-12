@@ -17,11 +17,13 @@ Install via composer:
 composer require logotel/logobot-php-integration
 ```
  
-## Usage
- 
+## Generating JWT 
+
 Generate your JWT with:
 
 ```php
+use Logotel\Logobot\Manager;
+
 $jwt = Manager::jwt()
         ->setKey(file_get_contents('/path/to/private_key.pem'))
         ->setLicense($license)
@@ -34,6 +36,8 @@ $jwt = Manager::jwt()
 The key can be retrieved by a file path:
 
 ```php
+use Logotel\Logobot\Manager;
+
 $jwt = Manager::jwt()
         ->setKeyFromFile('/path/to/private_key.pem')
         ->setLicense($license)
@@ -52,6 +56,33 @@ $jwt = Manager::jwt()
 | license    | String        | The bot license                      |
 | permissions| Array(String) | The user's permissions               |
 
+
+## Uploading text (with link)
+
+
+```php
+use Logotel\Logobot\Manager;
+
+Manager::textUpload()
+        ->setApiKey($api_key)
+        ->setContent($content)
+        ->setLink($link)
+        ->setPermissions($permissions)
+        ->setLanguage($language)
+        ->upload();
+```
+
+If you want to change the endpoint base url you can change it by:
+
+```php
+Manager::textUpload()->setApiUrl("https://something.test");
+```
+
+You can also set a custom http client
+
+```php
+Manager::textUpload()->setClient(new \GuzzleHttp\Client(...));
+```
 
  
 ## Contributing
