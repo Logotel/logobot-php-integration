@@ -10,7 +10,6 @@ use Logotel\Logobot\Validator\Validation;
 
 class TextUploadManager
 {
-
     protected ?ClientInterface $client;
 
     protected string $api_uri = "/api/v1/integration/bulk-importer/import-texts";
@@ -32,44 +31,51 @@ class TextUploadManager
         $this->api_base_url = "https://chatbot.logotel.cloud";
     }
 
-    public function setClient(ClientInterface $client): self{
+    public function setClient(ClientInterface $client): self
+    {
 
         $this->client = $client;
 
         return $this;
     }
 
-    public function setApiUrl(string $api_base_url): self{
+    public function setApiUrl(string $api_base_url): self
+    {
         $this->api_base_url = $api_base_url;
 
         return $this;
     }
 
-    public function setApiKey(string $api_key): self{
+    public function setApiKey(string $api_key): self
+    {
         $this->api_key = $api_key;
 
         return $this;
     }
 
-    public function setContent(string $content): self{
+    public function setContent(string $content): self
+    {
         $this->content = $content;
 
         return $this;
     }
 
-    public function setLink(string $link): self{
+    public function setLink(string $link): self
+    {
         $this->link = $link;
 
         return $this;
     }
 
-    public function setLanguage(string $language): self{
+    public function setLanguage(string $language): self
+    {
         $this->language = $language;
 
         return $this;
     }
 
-    public function setPermissions(array $permissions){
+    public function setPermissions(array $permissions)
+    {
         $this->permissions = $permissions;
 
         return $this;
@@ -82,12 +88,13 @@ class TextUploadManager
      * @throws DataInvalidException
      * @throws InvalidResponseException
      */
-    public function upload(): bool{
+    public function upload(): bool
+    {
 
         $this->validateData();
 
         try {
-            
+
             /** @var \GuzzleHttp\Client */
             $client = $this->client();
 
@@ -102,21 +109,21 @@ class TextUploadManager
                             'permissions' => $this->permissions
                         ]
                     ]
-                ]  
+                ]
             );
 
         } catch (ServerException $th) {
             if (!$th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
             }
-            
+
             $response = $th->getResponse();
 
             throw new InvalidResponseException(json_decode($response->getBody()->getContents(), true)['error']);
 
         }
-        
-        if($response->getStatusCode() !== 200){
+
+        if($response->getStatusCode() !== 200) {
             throw new InvalidResponseException(json_decode($response->getBody()->getContents(), true)['error'] ?? "Error while sending data: error " . $response->getStatusCode());
         }
 
@@ -124,7 +131,8 @@ class TextUploadManager
 
     }
 
-    public function getCompleteUrl(): string{
+    public function getCompleteUrl(): string
+    {
         return $this->api_base_url . $this->api_uri;
     }
 
@@ -145,11 +153,12 @@ class TextUploadManager
         return true;
     }
 
-    public function client(): ClientInterface{
+    public function client(): ClientInterface
+    {
         return $this->client ?: new \GuzzleHttp\Client(
             [
                 'headers' => [
-                    'x-api-key' => $this->api_key, 
+                    'x-api-key' => $this->api_key,
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json'
                 ]

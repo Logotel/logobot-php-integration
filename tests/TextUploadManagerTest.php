@@ -19,8 +19,8 @@ use PHPUnit\Framework\TestCase;
 
 class TextUploadManagerTest extends TestCase
 {
-
-    public function test_class_is_returned_correctly(){
+    public function test_class_is_returned_correctly()
+    {
         $class = Manager::textUpload();
 
         $this->assertInstanceOf(TextUploadManager::class, $class);
@@ -78,7 +78,7 @@ class TextUploadManagerTest extends TestCase
 
         $manager = Manager::textUpload()->setClient($clientMock);
 
-        if($thows){
+        if($thows) {
             $this->expectException($thows);
         }
 
@@ -94,7 +94,8 @@ class TextUploadManagerTest extends TestCase
 
     }
 
-    public static function http_cases(): array{
+    public static function http_cases(): array
+    {
         return [
             "with valid payload" => [
                 "data" => [
@@ -138,7 +139,7 @@ class TextUploadManagerTest extends TestCase
                 ],
                 "throws" => InvalidResponseException::class
             ],
-        ];  
+        ];
     }
 
 }
