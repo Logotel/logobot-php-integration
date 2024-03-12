@@ -11,7 +11,7 @@ use Logotel\Logobot\Validator\Validation;
 class TextUploadManager
 {
 
-    protected \GuzzleHttp\Client $client;
+    protected ?ClientInterface $client;
 
     protected string $api_uri = "/api/v1/integration/bulk-importer/import-texts";
 
@@ -88,7 +88,10 @@ class TextUploadManager
 
         try {
             
-            $response = $this->client()->post(
+            /** @var \GuzzleHttp\Client */
+            $client = $this->client();
+
+            $response = $client->post(
                 $this->getCompleteUrl(),
                 [
                     'json' => [
@@ -142,7 +145,7 @@ class TextUploadManager
         return true;
     }
 
-    public function client(): \GuzzleHttp\Client{
+    public function client(): ClientInterface{
         return $this->client ?: new \GuzzleHttp\Client(
             [
                 'headers' => [
