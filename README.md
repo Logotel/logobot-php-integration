@@ -65,6 +65,7 @@ use Logotel\Logobot\Manager;
 
 Manager::textUpload()
         ->setApiKey($api_key)
+        ->setTitle($title)
         ->setContent($content)
         ->setLink($link)
         ->setPermissions($permissions)

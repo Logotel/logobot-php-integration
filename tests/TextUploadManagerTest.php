@@ -26,43 +26,6 @@ class TextUploadManagerTest extends TestCase
         $this->assertInstanceOf(TextUploadManager::class, $class);
     }
 
-    // public function test_upload_is_ok()
-    // {
-
-    //     $clientMock = \Mockery::mock(Client::class);
-    //     $clientMock->shouldReceive('post')
-    //         ->once()
-    //         ->andReturn(new Response(200, [], '{"status": true'));
-
-    //     $textUploadManagerMock = \Mockery::mock(TextUploadManager::class)
-    //         ->makePartial()
-    //         // ->shouldAllowMockingProtectedMethods()
-    //         ->shouldReceive('client')
-    //         ->andReturn($clientMock);
-
-    //     $manager = Mockery::mock(Manager::class)->shouldReceive('textUpload')->andReturn($textUploadManagerMock);
-
-    //     // dd(get_class($textUploadManagerMock));
-
-    //     $api_key = "123456";
-    //     $content = "some text to upload";
-    //     $link = "https://www.example.com";
-    //     $language = "it";
-    //     $permissions = ["a", "b", "c"];
-
-    //     $status = Manager::textUpload()
-    //         ->setApiKey($api_key)
-    //         ->setContent($content)
-    //         ->setLink($link)
-    //         ->setPermissions($permissions)
-    //         ->setLanguage($language)
-    //         ->upload();
-
-
-    //     $this->assertTrue($status);
-
-    // }
-
     /**
      * @dataProvider http_cases
      */
@@ -84,6 +47,7 @@ class TextUploadManagerTest extends TestCase
 
         $status = $manager
             ->setApiKey($data["api_key"])
+            ->setTitle($data["title"])
             ->setContent($data["content"])
             ->setLink($data["link"])
             ->setPermissions($data["permissions"])
@@ -100,6 +64,7 @@ class TextUploadManagerTest extends TestCase
             "with valid payload" => [
                 "data" => [
                     "api_key" => "123456",
+                    "title" => "a title",
                     "content" => "some text to upload",
                     "link" => "https://www.example.com",
                     "language" => "it",
@@ -114,6 +79,7 @@ class TextUploadManagerTest extends TestCase
             "with invalid payload" => [
                 "data" => [
                     "api_key" => "",
+                    "title" => "",
                     "content" => "",
                     "link" => "test",
                     "language" => "it",
@@ -128,6 +94,7 @@ class TextUploadManagerTest extends TestCase
             "with http error" => [
                 "data" => [
                     "api_key" => "123456",
+                    "title" => "a title",
                     "content" => "some text to upload",
                     "link" => "https://www.example.com",
                     "language" => "it",

@@ -22,6 +22,8 @@ class TextUploadManager
 
     protected string $link;
 
+    protected string $title;
+
     protected string $language;
 
     protected array $permissions;
@@ -74,6 +76,13 @@ class TextUploadManager
         return $this;
     }
 
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
     public function setPermissions(array $permissions)
     {
         $this->permissions = $permissions;
@@ -103,15 +112,17 @@ class TextUploadManager
                 [
                     'json' => [
                         'data' => [
-                            'link' => $this->link,
-                            'language' => $this->language,
-                            'content' => $this->content,
-                            'permissions' => $this->permissions
+                            [
+                                'title' => $this->title,
+                                'link' => $this->link,
+                                'language' => $this->language,
+                                'content' => $this->content,
+                                'permissions' => $this->permissions
+                            ]
                         ]
                     ]
                 ]
             );
-
         } catch (ServerException $th) {
             if (!$th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
@@ -120,15 +131,13 @@ class TextUploadManager
             $response = $th->getResponse();
 
             throw new InvalidResponseException(json_decode($response->getBody()->getContents(), true)['error']);
-
         }
 
-        if($response->getStatusCode() !== 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new InvalidResponseException(json_decode($response->getBody()->getContents(), true)['error'] ?? "Error while sending data: error " . $response->getStatusCode());
         }
 
         return true;
-
     }
 
     public function getCompleteUrl(): string
@@ -140,13 +149,14 @@ class TextUploadManager
     {
 
         $val = new Validation();
-        $val->name('api_key')->value($this->api_key ?? "")->customPattern('[A-Za-z0-9-]+')->required();
+        $val->name('api_key')->value($this->api_key ?? "")->customPattern('[A-Za-z0-9-.]+')->required();
+        $val->name('title')->value($this->title ?? "")->required();
         $val->name('link')->value($this->link ?? "")->pattern('url')->required();
         $val->name('language')->value($this->language ?? "")->customPattern('[a-z]{2}')->required();
         $val->name('test')->value($this->content ?? "")->pattern('words')->required();
         $val->name('permissions')->value($this->permissions ?? null)->pattern('array')->required();
 
-        if(!$val->isSuccess()) {
+        if (!$val->isSuccess()) {
             throw new DataInvalidException($val->displayErrors());
         }
 
@@ -155,7 +165,7 @@ class TextUploadManager
 
     public function client(): ClientInterface
     {
-        return $this->client ?: new \GuzzleHttp\Client(
+        return isset($this->client) ? $this->client : new \GuzzleHttp\Client(
             [
                 'headers' => [
                     'x-api-key' => $this->api_key,
@@ -164,7 +174,5 @@ class TextUploadManager
                 ]
             ]
         );
-
     }
-
 }
