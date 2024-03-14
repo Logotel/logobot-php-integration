@@ -2,8 +2,6 @@
 
 namespace Logotel\Logobot;
 
-use BadMethodCallException;
-
 class Manager
 {
     public static function jwt(): JwtManager
@@ -18,6 +16,6 @@ class Manager
 
     public static function bulkImporter()
     {
-        throw new BadMethodCallException("Method not implemented");
+        return new BulkUploadManager();
     }
 }

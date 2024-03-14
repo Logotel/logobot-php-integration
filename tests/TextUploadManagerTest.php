@@ -2,19 +2,14 @@
 
 namespace Logotel\Logobot\Tests;
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Logotel\Logobot\Exceptions\DataInvalidException;
 use Logotel\Logobot\Exceptions\InvalidResponseException;
-use Logotel\Logobot\Exceptions\KeyFileNotFound;
-use Logotel\Logobot\Exceptions\UserInvalidException;
 use Logotel\Logobot\Manager;
 use Logotel\Logobot\TextUploadManager;
-use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class TextUploadManagerTest extends TestCase
