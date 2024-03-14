@@ -85,6 +85,28 @@ You can also set a custom http client
 Manager::textUpload()->setClient(new \GuzzleHttp\Client(...));
 ```
 
+## Bulk uploader
+
+```php
+use Logotel\Logobot\Manager;
+
+Manager::bulkImporter()
+        ->setApiKey($api_key)
+        ->setFilePath($file_path)
+        ->upload();
+```
+
+If you want to change the endpoint base url you can change it by:
+
+```php
+Manager::textUpload()->setApiUrl("https://something.test");
+```
+
+You can also set a custom http client
+
+```php
+Manager::textUpload()->setClient(new \GuzzleHttp\Client(...));
+```
  
 ## Contributing
  
