@@ -85,7 +85,33 @@ You can also set a custom http client
 Manager::textUpload()->setClient(new \GuzzleHttp\Client(...));
 ```
 
-## Bulk uploader
+## Bulk importer
+
+The bulk importer functionality will take care of processing multiple file at once. The file uploaded must by a zip file, containing:
+- <i>n</i> files in pdf or txt format
+- a json file named `details.json` with this structure, with one entry for each file:
+```json
+[
+  {
+    "name": "name_of_the_file.pdf",
+    "permissions": [
+      "a",
+      "list",
+      "of",
+      "permissions",
+    ],
+    "language": "selected_language"
+  },
+  {
+    ...
+  },
+  ...
+]
+```
+
+The number of the entries in the array must be `total files in zip - 1` (the json file).
+
+#### Usage
 
 ```php
 use Logotel\Logobot\Manager;
