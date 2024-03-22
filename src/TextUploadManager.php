@@ -153,7 +153,7 @@ class TextUploadManager
         $val->name('title')->value($this->title ?? "")->required();
         $val->name('link')->value($this->link ?? "")->pattern('url')->required();
         $val->name('language')->value($this->language ?? "")->customPattern('[a-z]{2}')->required();
-        $val->name('test')->value($this->content ?? "")->pattern('words')->required();
+        $val->name('content')->value($this->content ?? "")->pattern('words')->required();
         $val->name('permissions')->value($this->permissions ?? null)->pattern('array')->required();
 
         if (!$val->isSuccess()) {
