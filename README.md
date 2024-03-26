@@ -3,7 +3,7 @@
 </p>
 
 ![Tests](https://github.com/Logotel/logobot-php-integration/actions/workflows/test.yml/badge.svg?branch=main)
-
+![Packagist](https://img.shields.io/packagist/v/logotel/logobot-php-integration.svg)
 
 # Logobot PHP integration
  
