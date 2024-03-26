@@ -26,3 +26,7 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.2.3 - 2024-03-25
 
 - Fix validation
+
+## 1.2.4 - 2024-03-26
+
+- Update validation url
