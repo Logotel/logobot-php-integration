@@ -42,6 +42,7 @@ class TextUploadManagerTest extends TestCase
 
         $status = $manager
             ->setApiKey($data["api_key"])
+            ->setIdentifier($data["identifier"])
             ->setTitle($data["title"])
             ->setContent($data["content"])
             ->setLink($data["link"])
@@ -59,6 +60,7 @@ class TextUploadManagerTest extends TestCase
             "with valid payload" => [
                 "data" => [
                     "api_key" => "123456",
+                    "identifier" => "identifier",
                     "title" => "a title",
                     "content" => "Lorem ipsum dolor sit, amet cénsés data eoque erudito ignorant illas invidia parum turpius ullamcó utinam? Cernimus fugiéndus ipsa sagittis stulti suscipiet. Aperiam désérunt discordia fácillimis honestum ille inviti mus pródesset reprehendunt sequátur splendido viam? Adipiscuntur aspériorés cónsóletur facete, iste molita offendit ullamco? Chrysippe delicátá denique facilisi, fugiamus industria laetitia mediocrem metus minuti praeterierunt quamquam quanti scribimus tractavissent. Aute brévitér fore inprobitas liberalitati lorem mágnis paene quaerimus senectutem wisi? Alia consumere efficeretur hórtensió incommoda mutáns neglegit privamur priventur séntiamus vita. 
 Cérté corpore do firmissimum, his práecláre praeclarorum tempora tertium! Cuius disputatione dissentiunt eadem efficiendi, fugiendis hac labefactetur malesuada quasi? Animum causam desistunt fórtitudó hunc liberalitati officia omitténdis patiatur posuit putent putet turma? 
@@ -83,6 +85,7 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
             "with invalid payload" => [
                 "data" => [
                     "api_key" => "",
+                    "identifier" => "",
                     "title" => "",
                     "content" => "",
                     "link" => "test",
@@ -98,6 +101,7 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
             "with http error" => [
                 "data" => [
                     "api_key" => "123456",
+                    "identifier" => "123456",
                     "title" => "a title",
                     "content" => "some text to upload",
                     "link" => "https://www.example.com",
