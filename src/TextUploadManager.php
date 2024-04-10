@@ -18,6 +18,8 @@ class TextUploadManager
 
     protected string $api_key;
 
+    protected string $identifier;
+
     protected string $content;
 
     protected string $link;
@@ -60,6 +62,18 @@ class TextUploadManager
         $this->content = $content;
 
         return $this;
+    }
+
+    public function setIdentifier(string $identifier): self
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier ? (string)$this->identifier : uniqid();
     }
 
     public function setLink(string $link): self
@@ -113,6 +127,7 @@ class TextUploadManager
                     'json' => [
                         'data' => [
                             [
+                                'identifier' => $this->getIdentifier(),
                                 'title' => $this->title,
                                 'link' => $this->link,
                                 'language' => $this->language,
@@ -150,6 +165,7 @@ class TextUploadManager
 
         $val = new Validation();
         $val->name('api_key')->value($this->api_key ?? "")->customPattern('[A-Za-z0-9-.]+')->required();
+        $val->name('identifier')->value($this->getIdentifier())->required();
         $val->name('title')->value($this->title ?? "")->required();
         $val->name('link')->value($this->link ?? "")->pattern('url')->required();
         $val->name('language')->value($this->language ?? "")->customPattern('[a-z]{2}')->required();
