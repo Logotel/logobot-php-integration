@@ -6,7 +6,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ServerException;
 use Logotel\Logobot\Exceptions\DataInvalidException;
 use Logotel\Logobot\Exceptions\InvalidResponseException;
-use Logotel\Logobot\Validator\Validation;
+use Logotel\Logobot\Validator\Validator;
 
 class TextUploadManager
 {
@@ -160,19 +160,36 @@ class TextUploadManager
         return $this->api_base_url . $this->api_uri;
     }
 
+    protected function data(): array
+    {
+
+        return [
+            'api_uri' => $this->api_uri,
+            'api_base_url' => $this->api_base_url,
+            'api_key' => $this->api_key,
+            'identifier' => $this->identifier,
+            'content' => $this->content,
+            'link' => $this->link,
+            'title' => $this->title,
+            'language' => $this->language,
+            'permissions' => $this->permissions,
+        ];
+
+    }
+
     protected function validateData(): bool
     {
 
-        $val = new Validation();
-        $val->name('api_key')->value($this->api_key ?? "")->customPattern('[A-Za-z0-9-.]+')->required();
-        $val->name('identifier')->value($this->getIdentifier())->required();
-        $val->name('title')->value($this->title ?? "")->required();
-        $val->name('link')->value($this->link ?? "")->pattern('url')->required();
-        $val->name('language')->value($this->language ?? "")->customPattern('[a-z]{2}')->required();
-        $val->name('content')->value($this->content ?? "")->pattern('text')->required();
-        $val->name('permissions')->value($this->permissions ?? null)->pattern('array')->required();
+        $val = new Validator($this->data());
+        $val->field('api_key')->required();
+        $val->field('identifier')->required();
+        $val->field('title')->required();
+        $val->field('link')->required();
+        $val->field('language')->min_len(2)->max_len(2)->required();
+        $val->field('content')->required();
+        $val->field('permissions')->array()->required();
 
-        if (!$val->isSuccess()) {
+        if (!$val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());
         }
 
