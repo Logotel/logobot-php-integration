@@ -5,7 +5,7 @@ namespace Logotel\Logobot;
 use Firebase\JWT\JWT;
 use Logotel\Logobot\Exceptions\KeyFileNotFound;
 use Logotel\Logobot\Exceptions\UserInvalidException;
-use Logotel\Logobot\Validator\Validation;
+use Logotel\Logobot\Validator\Validator;
 
 class JwtManager
 {
@@ -83,15 +83,26 @@ class JwtManager
         return JWT::encode($this->getPayload(), $this->key, 'RS256');
     }
 
+    protected function data(): array
+    {
+
+        return [
+            'email' => $this->email,
+            'identifier' => $this->identifier,
+            'permissions' => $this->permissions,
+        ];
+
+    }
+
     protected function validateUser(): bool
     {
 
-        $val = new Validation();
-        $val->name('email')->value($this->email ?? "")->pattern('email')->required();
-        $val->name('identifier')->value($this->identifier ?? "")->customPattern('[A-Za-z0-9]+')->required();
-        $val->name('permissions')->value($this->permissions ?? null)->pattern('array')->required();
+        $val = new Validator($this->data());
+        $val->field('email')->email()->required();
+        $val->field('identifier')->required();
+        $val->field('permissions')->array()->required();
 
-        if(!$val->isSuccess()) {
+        if(!$val->is_valid()) {
             throw new UserInvalidException($val->displayErrors());
         }
 

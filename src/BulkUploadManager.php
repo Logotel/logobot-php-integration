@@ -8,7 +8,7 @@ use Logotel\Logobot\Exceptions\DataInvalidException;
 use Logotel\Logobot\Exceptions\InvalidResponseException;
 use Logotel\Logobot\Exceptions\S3UploadFileException;
 use Logotel\Logobot\Exceptions\S3UploadFileFailureException;
-use Logotel\Logobot\Validator\Validation;
+use Logotel\Logobot\Validator\Validator;
 
 class BulkUploadManager
 {
@@ -200,14 +200,26 @@ class BulkUploadManager
         return $this->api_base_url . $this->api_uri_import;
     }
 
+
+    protected function data(): array
+    {
+
+        return [
+            'api_base_url' => $this->api_base_url,
+            'api_key' => $this->api_key,
+            'file_path' => $this->file_path,
+        ];
+
+    }
+
     protected function validateData(): bool
     {
 
-        $val = new Validation();
-        $val->name('api_key')->value($this->api_key ?? "")->customPattern('[A-Za-z0-9-.]+')->required();
-        $val->name('file_path')->value($this->file_path ?? "")->required();
+        $val = new Validator($this->data());
+        $val->field('api_key')->required();
+        $val->field('file_path')->required();
 
-        if (!$val->isSuccess()) {
+        if (!$val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());
         }
 

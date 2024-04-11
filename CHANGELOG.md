@@ -34,3 +34,7 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.3.0 - 2024-04-09
 
 - Add identifier to text upload
+
+## 1.4.0 - 2024-04-10
+
+- Improve validator
