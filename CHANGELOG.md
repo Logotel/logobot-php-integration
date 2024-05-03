@@ -38,3 +38,7 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.4.0 - 2024-04-10
 
 - Improve validator
+
+## 1.5.0 - 2024-04-10
+
+- Added jwt expiration

@@ -30,6 +30,7 @@ $jwt = Manager::jwt()
         ->setEmail($email)
         ->setIdentifier($identifier)
         ->setPermissions($permissions)
+        ->setExpiration($expiration)
         ->generate();
 ```
 
@@ -44,8 +45,13 @@ $jwt = Manager::jwt()
         ->setEmail($email)
         ->setIdentifier($identifier)
         ->setPermissions($permissions)
+        ->setExpiration($expiration)
         ->generate();
 ```
+
+### Token expiration
+
+The token default lifetime is 24 hours. You can edit it with ` ->setExpiration(int $expiration)`. The expiration time is in seconds (deafult 60 * 60 * 24)
 
 ### User payload
 

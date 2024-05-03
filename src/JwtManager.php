@@ -34,6 +34,11 @@ class JwtManager
      */
     protected array $permissions = [];
 
+    /**
+     * @param int $expiration
+     */
+    protected int $expiration = 60 * 60 * 24;
+
     public function setKeyFromFile(string $file_path): self
     {
 
@@ -75,6 +80,12 @@ class JwtManager
         return $this;
     }
 
+    public function setExpiration(int $expiration): self
+    {
+        $this->expiration = $expiration;
+        return $this;
+    }
+
     public function generate(): string
     {
 
@@ -90,6 +101,7 @@ class JwtManager
             'email' => $this->email,
             'identifier' => $this->identifier,
             'permissions' => $this->permissions,
+            'expiration' => $this->expiration,
         ];
 
     }
@@ -101,6 +113,7 @@ class JwtManager
         $val->field('email')->email()->required();
         $val->field('identifier')->required();
         $val->field('permissions')->array()->required();
+        $val->field('expiration')->numeric()->required();
 
         if(!$val->is_valid()) {
             throw new UserInvalidException($val->displayErrors());
@@ -116,6 +129,7 @@ class JwtManager
             "email" => $this->email,
             "bot_license" => $this->license,
             "permissions" => $this->permissions,
+            'exp' => time() + $this->expiration,
         ];
     }
 }
