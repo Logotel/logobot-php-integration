@@ -18,4 +18,9 @@ class Manager
     {
         return new BulkUploadManager();
     }
+
+    public static function deleteDocument()
+    {
+        return new DeleteDocumentManager();
+    }
 }

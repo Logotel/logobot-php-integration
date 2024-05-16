@@ -10,55 +10,28 @@ use Logotel\Logobot\Exceptions\S3UploadFileException;
 use Logotel\Logobot\Exceptions\S3UploadFileFailureException;
 use Logotel\Logobot\Validator\Validator;
 
-class BulkUploadManager
+class BulkUploadManager extends AbstractManager
 {
-    protected ?ClientInterface $client;
-
     protected ?ClientInterface $s3_client;
 
     protected string $api_uri_presigned = "/api/v1/integration/bulk-importer/presigned-url";
 
     protected string $api_uri_import = "/api/v1/integration/bulk-importer/import";
 
-    protected string $api_base_url;
-
-    protected string $api_key;
-
     protected string $file_path;
     public function __construct()
     {
-        $this->api_base_url = "https://chatbot.logotel.cloud";
+        parent::__construct();
 
         $this->api_key = "";
         $this->file_path = "";
     }
 
-    public function setClient(ClientInterface $client): self
-    {
-
-        $this->client = $client;
-
-        return $this;
-    }
 
     public function setS3Client(ClientInterface $client): self
     {
 
         $this->s3_client = $client;
-
-        return $this;
-    }
-
-    public function setApiUrl(string $api_base_url): self
-    {
-        $this->api_base_url = $api_base_url;
-
-        return $this;
-    }
-
-    public function setApiKey(string $api_key): self
-    {
-        $this->api_key = $api_key;
 
         return $this;
     }
@@ -77,7 +50,7 @@ class BulkUploadManager
      * @throws DataInvalidException
      * @throws InvalidResponseException
      */
-    public function upload(): bool
+    public function makeRequest(): bool
     {
 
         $this->validateData();
@@ -89,6 +62,11 @@ class BulkUploadManager
         $this->sendFile();
 
         return true;
+    }
+
+    public function upload(): bool
+    {
+        return $this->makeRequest();
     }
 
     protected function sendFile(): bool
@@ -225,20 +203,6 @@ class BulkUploadManager
 
         return true;
     }
-
-    public function client(): ClientInterface
-    {
-        return isset($this->client) ? $this->client : new \GuzzleHttp\Client(
-            [
-                'headers' => [
-                    'x-api-key' => $this->api_key,
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json'
-                ]
-            ]
-        );
-    }
-
     public function s3Client(): ClientInterface
     {
         return isset($this->s3_client) ? $this->s3_client : new \GuzzleHttp\Client(

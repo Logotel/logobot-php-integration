@@ -140,7 +140,30 @@ You can also set a custom http client
 ```php
 Manager::textUpload()->setClient(new \GuzzleHttp\Client(...));
 ```
- 
+
+## Delete document
+
+```php
+use Logotel\Logobot\Manager;
+
+Manager::deleteDocument()
+        ->setApiKey($api_key)
+        ->setIdentifier($identifier)
+        ->delete();
+```
+
+If you want to change the endpoint base url you can change it by:
+
+```php
+Manager::deleteDocument()->setApiUrl("https://something.test");
+```
+
+You can also set a custom http client
+
+```php
+Manager::deleteDocument()->setClient(new \GuzzleHttp\Client(...));
+```
+
 ## Contributing
  
 1. Fork it!

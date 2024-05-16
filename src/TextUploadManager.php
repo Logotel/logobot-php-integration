@@ -2,22 +2,14 @@
 
 namespace Logotel\Logobot;
 
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ServerException;
 use Logotel\Logobot\Exceptions\DataInvalidException;
 use Logotel\Logobot\Exceptions\InvalidResponseException;
 use Logotel\Logobot\Validator\Validator;
 
-class TextUploadManager
+class TextUploadManager extends AbstractManager
 {
-    protected ?ClientInterface $client;
-
     protected string $api_uri = "/api/v1/integration/bulk-importer/import-texts";
-
-    protected string $api_base_url;
-
-    protected string $api_key;
-
     protected string $identifier;
 
     protected string $content;
@@ -29,34 +21,6 @@ class TextUploadManager
     protected string $language;
 
     protected array $permissions;
-
-    public function __construct()
-    {
-        $this->api_base_url = "https://chatbot.logotel.cloud";
-    }
-
-    public function setClient(ClientInterface $client): self
-    {
-
-        $this->client = $client;
-
-        return $this;
-    }
-
-    public function setApiUrl(string $api_base_url): self
-    {
-        $this->api_base_url = $api_base_url;
-
-        return $this;
-    }
-
-    public function setApiKey(string $api_key): self
-    {
-        $this->api_key = $api_key;
-
-        return $this;
-    }
-
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -111,7 +75,7 @@ class TextUploadManager
      * @throws DataInvalidException
      * @throws InvalidResponseException
      */
-    public function upload(): bool
+    public function makeRequest(): bool
     {
 
         $this->validateData();
@@ -155,6 +119,11 @@ class TextUploadManager
         return true;
     }
 
+    public function upload(): bool
+    {
+        return $this->makeRequest();
+    }
+
     public function getCompleteUrl(): string
     {
         return $this->api_base_url . $this->api_uri;
@@ -174,7 +143,6 @@ class TextUploadManager
             'language' => $this->language,
             'permissions' => $this->permissions,
         ];
-
     }
 
     protected function validateData(): bool
@@ -194,18 +162,5 @@ class TextUploadManager
         }
 
         return true;
-    }
-
-    public function client(): ClientInterface
-    {
-        return isset($this->client) ? $this->client : new \GuzzleHttp\Client(
-            [
-                'headers' => [
-                    'x-api-key' => $this->api_key,
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json'
-                ]
-            ]
-        );
     }
 }
