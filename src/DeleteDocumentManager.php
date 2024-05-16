@@ -22,10 +22,8 @@ class DeleteDocumentManager extends AbstractManager
                 $this->getCompleteUrl(),
                 [
                     'json' => [
-                        'data' => [
-                            [
-                                'identifier' => $this->getIdentifier()
-                            ]
+                        [
+                            'identifier' => $this->getIdentifier()
                         ]
                     ]
                 ]
