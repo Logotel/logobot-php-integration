@@ -42,3 +42,19 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.5.0 - 2024-04-10
 
 - Added jwt expiration
+
+## 1.6.0 - 2024-05-16
+
+- Delete document
+
+## 1.6.1 - 2024-05-16
+
+- Fix Delete document
+
+## 1.6.2 - 2024-05-16
+
+- Fix Delete document
+
+## 1.7.0 - 2024-05-28
+
+- Added document_date field
