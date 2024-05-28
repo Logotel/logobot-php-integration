@@ -48,6 +48,7 @@ class TextUploadManagerTest extends TestCase
             ->setLink($data["link"])
             ->setPermissions($data["permissions"])
             ->setLanguage($data["language"])
+            ->setDocumentDate($data["document_date"] ?? "")
             ->upload();
 
         $this->assertTrue($status);
@@ -75,6 +76,7 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                     "link" => "https://www.example.com",
                     "language" => "it",
                     "permissions" => ["a", "b", "c"],
+                    "document_date" => "2020-01-01"
                 ],
                 "status_code" => 200,
                 "response_message" => [
@@ -91,6 +93,7 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                     "link" => "test",
                     "language" => "it",
                     "permissions" => ["a", "b", "c"],
+                    // "document_date" => "2020-01-01"
                 ],
                 "status_code" => 200,
                 "response_message" => [
@@ -107,6 +110,7 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                     "link" => "https://www.example.com",
                     "language" => "it",
                     "permissions" => ["a", "b", "c"],
+                    "document_date" => "2020-01-01"
                 ],
                 "status_code" => 500,
                 "response_message" => [
