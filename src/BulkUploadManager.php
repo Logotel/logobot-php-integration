@@ -113,23 +113,6 @@ class BulkUploadManager extends AbstractManager
                 ],
             ]);
 
-
-            // $s3Client = new S3Client([
-            //     'version' => 'latest',
-            // ]);
-
-            // $result = $s3Client->putObject([
-            //     'Bucket' => null,
-            //     'Key' => "import.zip",
-            //     'Body' => fopen($this->file_path, 'r'),
-            //     'ContentLength' => filesize($this->file_path),
-            //     '@http' => [
-            //         'stream' => true,
-            //     ],
-            //     'SourceFile' => $this->file_path,
-            //     'Endpoint' => $presigned_url,
-            // ]);
-
         } catch (\Throwable $th) {
             throw new S3UploadFileException($th->getMessage());
         }

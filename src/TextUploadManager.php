@@ -10,17 +10,19 @@ use Logotel\Logobot\Validator\Validator;
 class TextUploadManager extends AbstractManager
 {
     protected string $api_uri = "/api/v1/integration/bulk-importer/import-texts";
-    protected string $identifier;
+    protected string $identifier = "";
 
-    protected string $content;
+    protected string $content = "";
 
-    protected string $link;
+    protected string $link = "";
 
-    protected string $title;
+    protected string $title = "";
 
-    protected string $language;
+    protected string $language = "";
 
-    protected array $permissions;
+    protected array $permissions = [];
+
+    protected string $document_date = "";
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -61,6 +63,13 @@ class TextUploadManager extends AbstractManager
         return $this;
     }
 
+    public function setDocumentDate(string $document_date): self
+    {
+        $this->document_date = $document_date;
+
+        return $this;
+    }
+
     public function setPermissions(array $permissions)
     {
         $this->permissions = $permissions;
@@ -96,7 +105,8 @@ class TextUploadManager extends AbstractManager
                                 'link' => $this->link,
                                 'language' => $this->language,
                                 'content' => $this->content,
-                                'permissions' => $this->permissions
+                                'permissions' => $this->permissions,
+                                'document_date' => $this->document_date,
                             ]
                         ]
                     ]
@@ -142,6 +152,7 @@ class TextUploadManager extends AbstractManager
             'title' => $this->title,
             'language' => $this->language,
             'permissions' => $this->permissions,
+            'document_date' => $this->document_date,
         ];
     }
 
@@ -156,6 +167,7 @@ class TextUploadManager extends AbstractManager
         $val->field('language')->min_len(2)->max_len(2)->required();
         $val->field('content')->required();
         $val->field('permissions')->array()->required();
+        $val->field('document_date')->required();
 
         if (!$val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());

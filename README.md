@@ -55,12 +55,13 @@ The token default lifetime is 24 hours. You can edit it with ` ->setExpiration(i
 
 ### User payload
 
-| Parameter  | Type          | Description                          |
-|------------|---------------|--------------------------------------|
-| email      | String        | The email address of the user        |
-| identifier | String        | The user identifier                  |
-| license    | String        | The bot license                      |
-| permissions| Array(String) | The user's permissions               |
+| Parameter    | Type          | Description                              |
+|--------------|---------------|------------------------------------------|
+| email        | String        | The email address of the user            |
+| identifier   | String        | The user identifier                      |
+| license      | String        | The bot license                          |
+| permissions  | Array(String) | The user's permissions                   |
+| document_date| String        | The date of the document in format Y-m-d |
 
 
 ## Uploading text (with link)
@@ -77,6 +78,7 @@ Manager::textUpload()
         ->setLink($link)
         ->setPermissions($permissions)
         ->setLanguage($language)
+        ->setDocumentDate($document_date)
         ->upload();
 ```
 
@@ -107,7 +109,8 @@ The bulk importer functionality will take care of processing multiple file at on
       "of",
       "permissions",
     ],
-    "language": "selected_language"
+    "language": "selected_language",
+    "document_date": "2024-05-29"
   },
   {
     ...
