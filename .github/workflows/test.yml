@@ -15,7 +15,7 @@ jobs:
             fail-fast: true
             matrix:
                 os: [ubuntu-latest]
-                php: [7.4, 8.0, 8.1, 8.2, 8.3]
+                php: [5.6, 7.4, 8.0, 8.1, 8.2, 8.3]
 
         name: P${{ matrix.php }} - ${{ matrix.os }}
         steps:
@@ -26,22 +26,22 @@ jobs:
               with:
                     php-version: ${{ matrix.php }}
                     extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, intl, exif, iconv, fileinfo
+
+            - name: Uninstall Composer
+              if: matrix.php == '5.6'
+              run: sudo rm /usr/local/bin/composer
+
             - name: Install Dependencies
+              if: matrix.php != '5.6'
               uses: nick-invision/retry@v1
               with:
                     timeout_minutes: 10
                     max_attempts: 3
                     command: composer install
-            - name: Execute tests
-              run: ./vendor/bin/phpunit
 
-    #   - name: Upload coverage reports to Codecov
-    #     uses: codecov/codecov-action@v3
-    #     with:
-    #       files: ./coverage/coverage.xml
-    #       flags: backend
-    #     env:
-    #       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+            - name: Execute tests
+              if: matrix.php != '5.6'
+              run: ./vendor/bin/phpunit
       
     style:
         runs-on: ubuntu-latest
