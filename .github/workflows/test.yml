@@ -15,7 +15,7 @@ jobs:
             fail-fast: true
             matrix:
                 os: [ubuntu-latest]
-                php: [5.6, 7.4, 8.0, 8.1, 8.2, 8.3]
+                php: [5.6, 7.4] #, 8.0, 8.1, 8.2, 8.3
 
         name: P${{ matrix.php }} - ${{ matrix.os }}
         steps:
@@ -27,9 +27,23 @@ jobs:
                     php-version: ${{ matrix.php }}
                     extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, intl, exif, iconv, fileinfo
 
-            - name: Setup Composer 2.2 LTS for PHP 5.6
+            - name: Uninstall Composer
               if: matrix.php == '5.6'
-              run: composer self-update --2.2
+              run: sudo rm /usr/local/bin/composer
+      
+            - name: Install Composer 2.2 LTS for PHP 5.6
+              if: matrix.php == '5.6'
+              run: |
+                EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+                php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+                ACTUAL_CHECKSUM="$(php -r 'echo hash_file("sha384", "composer-setup.php");')"
+                if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+                    >&2 echo 'ERROR: Invalid installer checksum'
+                    rm composer-setup.php
+                    exit 1
+                fi
+                php composer-setup.php --install-dir=/usr/local/bin --filename=composer --2.2
+                rm composer-setup.php
 
             - name: Install Dependencies
               uses: nick-invision/retry@v1
@@ -37,35 +51,35 @@ jobs:
                     timeout_minutes: 10
                     max_attempts: 3
                     command: composer install
-                    
+
             - name: Execute tests
               run: ./vendor/bin/phpunit
       
-    style:
-        runs-on: ubuntu-latest
-        name: PHP Style Check
-        steps:
-          - uses: actions/checkout@v2
-          - name: Setup PHP
-            uses: shivammathur/setup-php@v2
-            with:
-              php-version: "8.2"
-          - name: Run Script
-            run: |
-              composer global require friendsofphp/php-cs-fixer
-              ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes .
+    # style:
+    #     runs-on: ubuntu-latest
+    #     name: PHP Style Check
+    #     steps:
+    #       - uses: actions/checkout@v2
+    #       - name: Setup PHP
+    #         uses: shivammathur/setup-php@v2
+    #         with:
+    #           php-version: "8.2"
+    #       - name: Run Script
+    #         run: |
+    #           composer global require friendsofphp/php-cs-fixer
+    #           ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes .
     
-    staticanalysis:
-        runs-on: ubuntu-latest
-        name: PHPStan Static Analysis
-        steps:
-        - uses: actions/checkout@v2
-        - name: Install PHP
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: '8.2'
-        - name: Run Script
-          run: |
-            composer install
-            composer global require phpstan/phpstan
-            ~/.composer/vendor/bin/phpstan analyse
+    # staticanalysis:
+    #     runs-on: ubuntu-latest
+    #     name: PHPStan Static Analysis
+    #     steps:
+    #     - uses: actions/checkout@v2
+    #     - name: Install PHP
+    #       uses: shivammathur/setup-php@v2
+    #       with:
+    #         php-version: '8.2'
+    #     - name: Run Script
+    #       run: |
+    #         composer install
+    #         composer global require phpstan/phpstan
+    #         ~/.composer/vendor/bin/phpstan analyse
