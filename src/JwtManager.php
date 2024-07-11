@@ -35,6 +35,11 @@ class JwtManager
     protected array $permissions = [];
 
     /**
+     * @param bool $is_super_user
+     */
+    protected bool $is_super_user = false;
+
+    /**
      * @param int $expiration
      */
     protected int $expiration = 60 * 60 * 24;
@@ -80,6 +85,12 @@ class JwtManager
         return $this;
     }
 
+    public function setIsSuperUser(bool $is_super_user): self
+    {
+        $this->is_super_user = $is_super_user;
+        return $this;
+    }
+
     public function setExpiration(int $expiration): self
     {
         $this->expiration = $expiration;
@@ -101,6 +112,7 @@ class JwtManager
             'email' => $this->email,
             'identifier' => $this->identifier,
             'permissions' => $this->permissions,
+            'is_super_user' => $this->is_super_user,
             'expiration' => $this->expiration,
         ];
 
@@ -129,6 +141,7 @@ class JwtManager
             "email" => $this->email,
             "bot_license" => $this->license,
             "permissions" => $this->permissions,
+            "is_super_user" => $this->is_super_user,
             'exp' => time() + $this->expiration,
         ];
     }
