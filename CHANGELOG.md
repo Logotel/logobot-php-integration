@@ -58,3 +58,19 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.7.0 - 2024-05-28
 
 - Added document_date field
+
+## 1.8.0 - 2024-05-28
+
+- Changed guzzle version
+
+## 1.9.0 - 2024-05-28
+
+- Added compatibility with php 5.6
+
+## 1.9.1 - 2024-05-28
+
+- Fix php-jwt version
+
+## 1.10.0 - 2024-07-11
+
+- Added is_super_user field to jwt

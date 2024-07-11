@@ -19,6 +19,7 @@ class JwtManagerTest extends TestCase
         $identifier = '12345';
         $license = 'license';
         $permissions = ['admin'];
+        $is_super_user = false;
 
         $jwt = Manager::jwt()
             ->setKey(file_get_contents(__DIR__ . '/fixtures/private_key.txt'))
@@ -26,6 +27,7 @@ class JwtManagerTest extends TestCase
             ->setEmail($email)
             ->setIdentifier($identifier)
             ->setPermissions($permissions)
+            ->setIsSuperUser($is_super_user)
             ->generate();
 
         $decoded = JWT::decode($jwt, new Key(file_get_contents(__DIR__ . '/fixtures/public_key.txt'), 'RS256'));
@@ -34,6 +36,7 @@ class JwtManagerTest extends TestCase
         $this->assertEquals($decoded->identifier, $identifier);
         $this->assertEquals($decoded->bot_license, $license);
         $this->assertEquals($decoded->permissions, $permissions);
+        $this->assertEquals($decoded->is_super_user, $is_super_user);
 
     }
 
@@ -82,6 +85,7 @@ class JwtManagerTest extends TestCase
         $this->assertEquals($decoded->identifier, $identifier);
         $this->assertEquals($decoded->bot_license, $license);
         $this->assertEquals($decoded->permissions, $permissions);
+        $this->assertEquals($decoded->is_super_user, false);
 
     }
 
@@ -121,6 +125,7 @@ class JwtManagerTest extends TestCase
         $this->assertNotEquals($decoded->identifier, "abcd");
         $this->assertNotEquals($decoded->bot_license, "test");
         $this->assertNotEquals($decoded->permissions, []);
+        $this->assertNotEquals($decoded->is_super_user, true);
 
     }
 
