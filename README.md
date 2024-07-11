@@ -30,6 +30,7 @@ $jwt = Manager::jwt()
         ->setEmail($email)
         ->setIdentifier($identifier)
         ->setPermissions($permissions)
+        ->setIsSuperUser($is_super_user)
         ->setExpiration($expiration)
         ->generate();
 ```
@@ -45,9 +46,14 @@ $jwt = Manager::jwt()
         ->setEmail($email)
         ->setIdentifier($identifier)
         ->setPermissions($permissions)
+        ->setIsSuperUser($is_super_user)
         ->setExpiration($expiration)
         ->generate();
 ```
+
+### Super user
+
+The property (bool) can set if the user has high privilege. The privileges will be managed by the server application.
 
 ### Token expiration
 
@@ -55,13 +61,14 @@ The token default lifetime is 24 hours. You can edit it with ` ->setExpiration(i
 
 ### User payload
 
-| Parameter    | Type          | Description                              |
-|--------------|---------------|------------------------------------------|
-| email        | String        | The email address of the user            |
-| identifier   | String        | The user identifier                      |
-| license      | String        | The bot license                          |
-| permissions  | Array(String) | The user's permissions                   |
-| document_date| String        | The date of the document in format Y-m-d |
+| Parameter      | Type          | Description                              |
+|----------------|---------------|------------------------------------------|
+| email          | String        | The email address of the user            |
+| identifier     | String        | The user identifier                      |
+| license        | String        | The bot license                          |
+| permissions    | Array(String) | The user's permissions                   |
+| is_super_user  | Bool          | If the user is super user                |
+| document_date  | String        | The date of the document in format Y-m-d |
 
 
 ## Uploading text (with link)
