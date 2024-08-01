@@ -68,7 +68,6 @@ The token default lifetime is 24 hours. You can edit it with ` ->setExpiration(i
 | license        | String        | The bot license                          |
 | permissions    | Array(String) | The user's permissions                   |
 | is_super_user  | Bool          | If the user is super user                |
-| document_date  | String        | The date of the document in format Y-m-d |
 
 
 ## Uploading text (with link)
