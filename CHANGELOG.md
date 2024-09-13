@@ -78,3 +78,4 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.11.0 - 2024-09-13
 
 - Added search engine functionality
+- Added metadata to upload text and bulk
