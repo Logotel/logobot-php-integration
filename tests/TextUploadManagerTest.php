@@ -78,7 +78,7 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                     "language" => "it",
                     "permissions" => ["a", "b", "c"],
                     "metadata" => ["a" => "b", "b" => "c", "c" => "d"],
-                    "document_date" => "2020-01-01"
+                    "document_date" => "2020-01-01",
                 ],
                 "status_code" => 200,
                 "response_message" => [
