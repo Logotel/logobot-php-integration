@@ -84,6 +84,7 @@ Manager::textUpload()
         ->setLink($link)
         ->setPermissions($permissions)
         ->setLanguage($language)
+        ->setMetadata($metadata)
         ->setDocumentDate($document_date)
         ->upload();
 ```
@@ -116,6 +117,10 @@ The bulk importer functionality will take care of processing multiple file at on
       "permissions",
     ],
     "language": "selected_language",
+    "metadata": {
+        "some": "value",
+        "another": "value",
+    },
     "document_date": "2024-05-29"
   },
   {

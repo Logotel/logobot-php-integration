@@ -22,6 +22,8 @@ class TextUploadManager extends AbstractManager
 
     protected array $permissions = [];
 
+    protected ?array $metadata = [];
+
     protected string $document_date = "";
     public function setContent(string $content): self
     {
@@ -77,6 +79,13 @@ class TextUploadManager extends AbstractManager
         return $this;
     }
 
+    public function setMetadata(?array $metadata)
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
     /**
      * Upload the content to the bot service
      *
@@ -106,6 +115,7 @@ class TextUploadManager extends AbstractManager
                                 'language' => $this->language,
                                 'content' => $this->content,
                                 'permissions' => $this->permissions,
+                                'metadata' => $this->metadata,
                                 'document_date' => $this->document_date,
                             ]
                         ]
@@ -152,6 +162,7 @@ class TextUploadManager extends AbstractManager
             'title' => $this->title,
             'language' => $this->language,
             'permissions' => $this->permissions,
+            'metadata' => $this->metadata,
             'document_date' => $this->document_date,
         ];
     }
@@ -167,6 +178,7 @@ class TextUploadManager extends AbstractManager
         $val->field('language')->min_len(2)->max_len(2)->required();
         $val->field('content')->required();
         $val->field('permissions')->array()->required();
+        $val->field('metadata')->array();
         $val->field('document_date')->required();
 
         if (!$val->is_valid()) {
