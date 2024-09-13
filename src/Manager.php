@@ -23,4 +23,9 @@ class Manager
     {
         return new DeleteDocumentManager();
     }
+
+    public static function searchEngine()
+    {
+        return new SearchEngineManager();
+    }
 }

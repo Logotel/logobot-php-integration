@@ -84,7 +84,7 @@ class TextUploadManager extends AbstractManager
      * @throws DataInvalidException
      * @throws InvalidResponseException
      */
-    public function makeRequest(): bool
+    public function makeRequest(): bool|array
     {
 
         $this->validateData();

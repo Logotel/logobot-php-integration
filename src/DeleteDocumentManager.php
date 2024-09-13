@@ -12,7 +12,7 @@ class DeleteDocumentManager extends AbstractManager
 
     protected string $identifier;
 
-    public function makeRequest(): bool
+    public function makeRequest(): bool|array
     {
         try {
             /** @var \GuzzleHttp\Client */
