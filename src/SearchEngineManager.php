@@ -72,11 +72,11 @@ class SearchEngineManager extends AbstractManager
                 $this->getCompleteUrl(),
                 [
                     'question' => $this->query,
-                    'limit' => $this->limit
+                    'limit' => $this->limit,
                 ]
             );
         } catch (ServerException $th) {
-            if (!$th->hasResponse()) {
+            if (! $th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
             }
 
@@ -115,7 +115,7 @@ class SearchEngineManager extends AbstractManager
         $val->field('jwt')->required();
         $val->field('limit')->numeric();
 
-        if (!$val->is_valid()) {
+        if (! $val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());
         }
 

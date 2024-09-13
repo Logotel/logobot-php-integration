@@ -10,7 +10,6 @@ use Logotel\Logobot\Exceptions\DataInvalidException;
 use Logotel\Logobot\Exceptions\InvalidResponseException;
 use Logotel\Logobot\Manager;
 use Logotel\Logobot\SearchEngineManager;
-use Logotel\Logobot\TextUploadManager;
 use PHPUnit\Framework\TestCase;
 
 class SearchEngineManagerTest extends TestCase
@@ -30,7 +29,7 @@ class SearchEngineManagerTest extends TestCase
 
         $jwt = "something";
 
-        if($generate_jwt) {
+        if ($generate_jwt) {
             $email = 'test@email.com';
             $identifier = '12345';
             $license = 'license';
@@ -48,7 +47,7 @@ class SearchEngineManagerTest extends TestCase
         }
 
         $mock = new MockHandler([
-            new Response($status_code, [], json_encode($response_message))
+            new Response($status_code, [], json_encode($response_message)),
         ]);
 
         $handlerStack = HandlerStack::create($mock);
@@ -56,7 +55,7 @@ class SearchEngineManagerTest extends TestCase
 
         $manager = Manager::searchEngine()->setClient($clientMock);
 
-        if($thows) {
+        if ($thows) {
             $this->expectException($thows);
         }
 
@@ -65,7 +64,7 @@ class SearchEngineManagerTest extends TestCase
             ->setJwt($jwt)
             ->setQuery($data["query"]);
 
-        if(isset($data["limit"])) {
+        if (isset($data["limit"])) {
             $manager->setLimit($data["limit"]);
         }
 
@@ -123,7 +122,7 @@ class SearchEngineManagerTest extends TestCase
                         'created_at' => "10/10/2024 10:10:10",
                     ],
                 ],
-                "throws" => null
+                "throws" => null,
             ],
             "with invalid payload" => [
                 "generate_jwt" => true,
@@ -133,9 +132,9 @@ class SearchEngineManagerTest extends TestCase
                 ],
                 "status_code" => 200,
                 "response_message" => [
-                    "status" => true
+                    "status" => true,
                 ],
-                "throws" => DataInvalidException::class
+                "throws" => DataInvalidException::class,
             ],
             "without jwt" => [
                 "generate_jwt" => false,
@@ -146,9 +145,9 @@ class SearchEngineManagerTest extends TestCase
                 ],
                 "status_code" => 403,
                 "response_message" => [
-                    "status" => true
+                    "status" => true,
                 ],
-                "throws" => \GuzzleHttp\Exception\ClientException::class
+                "throws" => \GuzzleHttp\Exception\ClientException::class,
             ],
             "with http error" => [
                 "generate_jwt" => true,
@@ -161,9 +160,8 @@ class SearchEngineManagerTest extends TestCase
                 "response_message" => [
 
                 ],
-                "throws" => InvalidResponseException::class
+                "throws" => InvalidResponseException::class,
             ],
         ];
     }
-
 }

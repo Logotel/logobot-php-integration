@@ -19,6 +19,7 @@ class BulkUploadManager extends AbstractManager
     protected string $api_uri_import = "/api/v1/integration/bulk-importer/import";
 
     protected string $file_path;
+
     public function __construct()
     {
         parent::__construct();
@@ -26,7 +27,6 @@ class BulkUploadManager extends AbstractManager
         $this->api_key = "";
         $this->file_path = "";
     }
-
 
     public function setS3Client(ClientInterface $client): self
     {
@@ -78,7 +78,7 @@ class BulkUploadManager extends AbstractManager
 
             $response = $client->post($this->getCompleteUrlImport());
         } catch (ServerException $th) {
-            if (!$th->hasResponse()) {
+            if (! $th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
             }
 
@@ -134,7 +134,7 @@ class BulkUploadManager extends AbstractManager
             $response = $client->get($this->getCompleteUrlPresigned());
 
         } catch (ServerException $th) {
-            if (!$th->hasResponse()) {
+            if (! $th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
             }
 
@@ -161,7 +161,6 @@ class BulkUploadManager extends AbstractManager
         return $this->api_base_url . $this->api_uri_import;
     }
 
-
     protected function data(): array
     {
 
@@ -180,19 +179,20 @@ class BulkUploadManager extends AbstractManager
         $val->field('api_key')->required();
         $val->field('file_path')->required();
 
-        if (!$val->is_valid()) {
+        if (! $val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());
         }
 
         return true;
     }
+
     public function s3Client(): ClientInterface
     {
         return isset($this->s3_client) ? $this->s3_client : new \GuzzleHttp\Client(
             [
                 'headers' => [
-                    'Content-Type' => 'application/octet-stream'
-                ]
+                    'Content-Type' => 'application/octet-stream',
+                ],
             ]
         );
     }
