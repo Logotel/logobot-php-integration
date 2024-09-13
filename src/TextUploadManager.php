@@ -25,6 +25,7 @@ class TextUploadManager extends AbstractManager
     protected ?array $metadata = [];
 
     protected string $document_date = "";
+
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -117,13 +118,13 @@ class TextUploadManager extends AbstractManager
                                 'permissions' => $this->permissions,
                                 'metadata' => $this->metadata,
                                 'document_date' => $this->document_date,
-                            ]
-                        ]
-                    ]
+                            ],
+                        ],
+                    ],
                 ]
             );
         } catch (ServerException $th) {
-            if (!$th->hasResponse()) {
+            if (! $th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
             }
 
@@ -181,7 +182,7 @@ class TextUploadManager extends AbstractManager
         $val->field('metadata')->array();
         $val->field('document_date')->required();
 
-        if (!$val->is_valid()) {
+        if (! $val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());
         }
 

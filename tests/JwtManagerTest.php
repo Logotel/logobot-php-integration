@@ -145,6 +145,7 @@ class JwtManagerTest extends TestCase
             $this->assertNotEmpty($jwt);
         } catch (UserInvalidException $th) {
             $this->expectException(UserInvalidException::class);
+
             throw $th;
         }
 

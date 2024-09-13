@@ -53,7 +53,7 @@ class BulkUploadManagerTest extends TestCase
 
         $manager = Manager::bulkImporter()->setClient($clientMock)->setS3Client($clientMockImport);
 
-        if($thows) {
+        if ($thows) {
             $this->expectException($thows);
         }
 
@@ -74,74 +74,73 @@ class BulkUploadManagerTest extends TestCase
                 "file_path" => "none.zip",
                 "status_code_presigned_url" => 200,
                 "response_message_presigned_url" => [
-                    "url" => "https://a-valid-url"
+                    "url" => "https://a-valid-url",
                 ],
                 "status_code_import" => 200,
                 "response_message_import" => [
-                    "status" => true
+                    "status" => true,
                 ],
                 "status_code_upload" => 200,
-                "throws" => DataInvalidException::class
+                "throws" => DataInvalidException::class,
             ],
             "with valid file" => [
                 "api_key" => "12456",
                 "file_path" => "success_import.zip",
                 "status_code_presigned_url" => 200,
                 "response_message_presigned_url" => [
-                    "url" => "https://a-valid-url"
+                    "url" => "https://a-valid-url",
                 ],
                 "status_code_import" => 200,
                 "response_message_import" => [
-                    "status" => true
+                    "status" => true,
                 ],
                 "status_code_upload" => 200,
-                "throws" => null
+                "throws" => null,
             ],
             "with presigned url error" => [
                 "api_key" => "12456",
                 "file_path" => "success_import.zip",
                 "status_code_presigned_url" => 500,
                 "response_message_presigned_url" => [
-                    "error" => "An error occurred"
+                    "error" => "An error occurred",
                 ],
                 "status_code_import" => 200,
                 "response_message_import" => [
-                    "status" => true
+                    "status" => true,
                 ],
                 "status_code_upload" => 200,
-                "throws" => InvalidResponseException::class
+                "throws" => InvalidResponseException::class,
             ],
             "with upload error" => [
                 "api_key" => "12456",
                 "file_path" => "success_import.zip",
                 "status_code_presigned_url" => 200,
                 "response_message_presigned_url" => [
-                    "url" => "https://a-valid-url"
+                    "url" => "https://a-valid-url",
                 ],
                 "status_code_import" => 200,
                 "response_message_import" => [
-                    "status" => true
+                    "status" => true,
                 ],
                 "status_code_upload" => 500,
-                "throws" => S3UploadFileException::class
+                "throws" => S3UploadFileException::class,
             ],
             "with send file error" => [
                 "api_key" => "12456",
                 "file_path" => "success_import.zip",
                 "status_code_presigned_url" => 200,
                 "response_message_presigned_url" => [
-                    "url" => "https://a-valid-url"
+                    "url" => "https://a-valid-url",
                 ],
                 "status_code_import" => 500,
                 "response_message_import" => [
-                    "error" => "An error description"
+                    "error" => "An error description",
                 ],
                 "status_code_upload" => 200,
-                "throws" => InvalidResponseException::class
+                "throws" => InvalidResponseException::class,
             ],
 
 
         ];
     }
-
 }

@@ -22,12 +22,12 @@ class DeleteDocumentManager extends AbstractManager
                 $this->getCompleteUrl(),
                 [
                     'json' => [
-                        'identifier' => $this->getIdentifier()
-                    ]
+                        'identifier' => $this->getIdentifier(),
+                    ],
                 ]
             );
         } catch (ServerException $th) {
-            if (!$th->hasResponse()) {
+            if (! $th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
             }
 
@@ -42,7 +42,7 @@ class DeleteDocumentManager extends AbstractManager
 
         $status = json_decode($response->getBody()->getContents(), true)['status'] ?? false;
 
-        if (!$status) {
+        if (! $status) {
             throw new CannotDeleteFileException(json_decode($response->getBody()->getContents(), true)['error'] ?? "Cannot delete file");
         }
 

@@ -7,22 +7,22 @@ use DateTime;
 class Validator
 {
     /**
-     * @var array $data - Data to validate.
+     * @var array - Data to validate.
      */
     private $data;
 
     /**
-     * @var string $current_field - Current selected key/field to validae data.
+     * @var string - Current selected key/field to validae data.
      */
     private $current_field;
 
     /**
-     * @var string $current_alias - Alias use on error messages instead of field name.
+     * @var string - Alias use on error messages instead of field name.
      */
     private $current_alias;
 
     /**
-     * @var array $response_messages - Error messages to show user.
+     * @var array - Error messages to show user.
      *
      * You can change messages from here. User "{field}" to refer the field name.
      */
@@ -47,12 +47,12 @@ class Validator
     ];
 
     /**
-     * @var array $error_messages - Error message generated after validation of each field.
+     * @var array - Error message generated after validation of each field.
      */
     public $error_messages = [];
 
     /**
-     * @var boolean $next - Check if next validation on the field shoud run or not.
+     * @var bool - Check if next validation on the field shoud run or not.
      */
     private $next = true;
 
@@ -77,7 +77,7 @@ class Validator
     {
         $field_name = $this->current_alias ? ucfirst($this->current_alias) : ucfirst($this->current_field);
         $msg = str_replace('{field}', $field_name, $this->response_messages[$type]);
-        foreach($others as $key => $val) {
+        foreach ($others as $key => $val) {
             $msg = str_replace('{'.$key.'}', $val, $msg);
         }
         $this->error_messages[$this->current_field] = $msg;
@@ -86,13 +86,14 @@ class Validator
     /**
      * exists - Check if the current field or field value exists or not.
      *
-     * @return boolean
+     * @return bool
      */
     private function exists()
     {
-        if(!isset($this->data[$this->current_field]) || !$this->data[$this->current_field]) {
+        if (! isset($this->data[$this->current_field]) || ! $this->data[$this->current_field]) {
             return false;
         }
+
         return true;
     }
 
@@ -104,7 +105,7 @@ class Validator
      */
     public function set_response_messages($messages)
     {
-        foreach($messages as $key => $val) {
+        foreach ($messages as $key => $val) {
             $this->response_messages[$key] = $val;
         }
     }
@@ -121,6 +122,7 @@ class Validator
         $this->current_field = $name;
         $this->next = true;
         $this->current_alias = $alias;
+
         return $this;
     }
 
@@ -131,10 +133,11 @@ class Validator
      */
     public function required()
     {
-        if(!$this->exists()) {
+        if (! $this->exists()) {
             $this->add_error_message('required');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -146,10 +149,11 @@ class Validator
      */
     public function alpha($ignore = [])
     {
-        if($this->next && $this->exists() && !ctype_alpha(str_replace($ignore, '', $this->data[$this->current_field]))) {
+        if ($this->next && $this->exists() && ! ctype_alpha(str_replace($ignore, '', $this->data[$this->current_field]))) {
             $this->add_error_message('alpha');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -161,10 +165,11 @@ class Validator
      */
     public function alpha_num($ignore = [])
     {
-        if($this->next && $this->exists() && !ctype_alnum(str_replace($ignore, '', $this->data[$this->current_field]))) {
+        if ($this->next && $this->exists() && ! ctype_alnum(str_replace($ignore, '', $this->data[$this->current_field]))) {
             $this->add_error_message('alpha_num');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -175,10 +180,11 @@ class Validator
      */
     public function numeric()
     {
-        if($this->next && $this->exists() && !is_numeric($this->data[$this->current_field])) {
+        if ($this->next && $this->exists() && ! is_numeric($this->data[$this->current_field])) {
             $this->add_error_message('numeric');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -189,10 +195,11 @@ class Validator
      */
     public function email()
     {
-        if($this->next && $this->exists() && !filter_var($this->data[$this->current_field], FILTER_VALIDATE_EMAIL)) {
+        if ($this->next && $this->exists() && ! filter_var($this->data[$this->current_field], FILTER_VALIDATE_EMAIL)) {
             $this->add_error_message('email');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -204,10 +211,11 @@ class Validator
      */
     public function max_len($size)
     {
-        if($this->next && $this->exists() && strlen($this->data[$this->current_field]) > $size) {
+        if ($this->next && $this->exists() && strlen($this->data[$this->current_field]) > $size) {
             $this->add_error_message('max_len');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -219,10 +227,11 @@ class Validator
     */
     public function min_len($size)
     {
-        if($this->next && $this->exists() && strlen($this->data[$this->current_field]) < $size) {
+        if ($this->next && $this->exists() && strlen($this->data[$this->current_field]) < $size) {
             $this->add_error_message('min_len');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -234,10 +243,11 @@ class Validator
      */
     public function max_val($val)
     {
-        if($this->next && $this->exists() && $this->data[$this->current_field] > $val) {
+        if ($this->next && $this->exists() && $this->data[$this->current_field] > $val) {
             $this->add_error_message('max_val');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -249,10 +259,11 @@ class Validator
      */
     public function min_val($val)
     {
-        if($this->next && $this->exists() && $this->data[$this->current_field] < $val) {
+        if ($this->next && $this->exists() && $this->data[$this->current_field] < $val) {
             $this->add_error_message('min_val');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -264,10 +275,11 @@ class Validator
      */
     public function enum($list)
     {
-        if($this->next && $this->exists() && !in_array($this->data[$this->current_field], $list)) {
+        if ($this->next && $this->exists() && ! in_array($this->data[$this->current_field], $list)) {
             $this->add_error_message('enum');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -279,10 +291,11 @@ class Validator
      */
     public function equals($value)
     {
-        if($this->next && $this->exists() && !$this->data[$this->current_field] == $value) {
+        if ($this->next && $this->exists() && ! $this->data[$this->current_field] == $value) {
             $this->add_error_message('equals');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -294,13 +307,14 @@ class Validator
      */
     public function date($format = 'Y-m-d')
     {
-        if($this->next && $this->exists()) {
+        if ($this->next && $this->exists()) {
             $dateTime = DateTime::createFromFormat($format, $this->data[$this->current_field]);
-            if(!($dateTime && $dateTime->format($format) == $this->data[$this->current_field])) {
+            if (! ($dateTime && $dateTime->format($format) == $this->data[$this->current_field])) {
                 $this->add_error_message('date');
                 $this->next = false;
             }
         }
+
         return $this;
     }
 
@@ -312,10 +326,11 @@ class Validator
      */
     public function date_after($date)
     {
-        if($this->next && $this->exists() && strtotime($date) >= strtotime($this->data[$this->current_field])) {
+        if ($this->next && $this->exists() && strtotime($date) >= strtotime($this->data[$this->current_field])) {
             $this->add_error_message('date_after');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -327,10 +342,11 @@ class Validator
      */
     public function date_before($date)
     {
-        if($this->next && $this->exists() && strtotime($date) <= strtotime($this->data[$this->current_field])) {
+        if ($this->next && $this->exists() && strtotime($date) <= strtotime($this->data[$this->current_field])) {
             $this->add_error_message('date_before');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -342,10 +358,11 @@ class Validator
      */
     public function must_contain($chars)
     {
-        if($this->next && $this->exists() && !preg_match("/[".$chars."]/i", $this->data[$this->current_field])) {
+        if ($this->next && $this->exists() && ! preg_match("/[".$chars."]/i", $this->data[$this->current_field])) {
             $this->add_error_message('must_contain', ['chars' => $chars]);
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -357,10 +374,11 @@ class Validator
     public function array()
     {
 
-        if($this->next && $this->exists() && !is_array($this->data[$this->current_field])) {
+        if ($this->next && $this->exists() && ! is_array($this->data[$this->current_field])) {
             $this->add_error_message('array');
             $this->next = false;
         }
+
         return $this;
     }
 
@@ -372,17 +390,18 @@ class Validator
      */
     public function match($patarn)
     {
-        if($this->next && $this->exists() && !preg_match($patarn, $this->data[$this->current_field])) {
+        if ($this->next && $this->exists() && ! preg_match($patarn, $this->data[$this->current_field])) {
             $this->add_error_message('match');
             $this->next = false;
         }
+
         return $this;
     }
 
     /**
      * is_valid - Check if all validations is successfull.
      *
-     * @return boolean
+     * @return bool
      */
     public function is_valid()
     {
@@ -393,11 +412,10 @@ class Validator
     {
         $messages = "";
 
-        foreach($this->error_messages as $field => $error_message) {
+        foreach ($this->error_messages as $field => $error_message) {
             $messages .= "{$field}: {$error_message}";
         }
 
         return $messages;
     }
-
 }

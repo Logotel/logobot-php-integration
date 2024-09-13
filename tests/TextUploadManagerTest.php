@@ -28,7 +28,7 @@ class TextUploadManagerTest extends TestCase
     {
 
         $mock = new MockHandler([
-            new Response($status_code, [], json_encode($response_message))
+            new Response($status_code, [], json_encode($response_message)),
         ]);
 
         $handlerStack = HandlerStack::create($mock);
@@ -36,7 +36,7 @@ class TextUploadManagerTest extends TestCase
 
         $manager = Manager::textUpload()->setClient($clientMock);
 
-        if($thows) {
+        if ($thows) {
             $this->expectException($thows);
         }
 
@@ -82,9 +82,9 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                 ],
                 "status_code" => 200,
                 "response_message" => [
-                    "status" => true
+                    "status" => true,
                 ],
-                "throws" => null
+                "throws" => null,
             ],
             "with invalid payload" => [
                 "data" => [
@@ -99,9 +99,9 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                 ],
                 "status_code" => 200,
                 "response_message" => [
-                    "status" => true
+                    "status" => true,
                 ],
-                "throws" => DataInvalidException::class
+                "throws" => DataInvalidException::class,
             ],
             "with http error" => [
                 "data" => [
@@ -112,15 +112,14 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                     "link" => "https://www.example.com",
                     "language" => "it",
                     "permissions" => ["a", "b", "c"],
-                    "document_date" => "2020-01-01"
+                    "document_date" => "2020-01-01",
                 ],
                 "status_code" => 500,
                 "response_message" => [
-                    "error" => "Some error"
+                    "error" => "Some error",
                 ],
-                "throws" => InvalidResponseException::class
+                "throws" => InvalidResponseException::class,
             ],
         ];
     }
-
 }
