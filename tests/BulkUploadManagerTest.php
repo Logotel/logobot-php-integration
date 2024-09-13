@@ -62,7 +62,7 @@ class BulkUploadManagerTest extends TestCase
             ->setFilePath(__DIR__ . "/fixtures/{$file_path}")
             ->upload();
 
-        $this->assertTrue($status);
+        $this->assertEquals(['status' => true], $status);
 
     }
 

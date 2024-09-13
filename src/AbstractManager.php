@@ -50,5 +50,5 @@ abstract class AbstractManager
         );
     }
 
-    abstract public function makeRequest(): bool|array;
+    abstract public function makeRequest(): array;
 }

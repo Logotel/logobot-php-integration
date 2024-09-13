@@ -48,17 +48,17 @@ class SearchEngineManager extends AbstractManager
 
     public function search(): array
     {
-        return (array)$this->makeRequest();
+        return $this->makeRequest();
     }
 
     /**
      * Call the api for result
      *
-     * @return boolean
+     * @return array
      * @throws DataInvalidException
      * @throws InvalidResponseException
      */
-    public function makeRequest(): bool|array
+    public function makeRequest(): array
     {
 
         $this->validateData();

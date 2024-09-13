@@ -45,7 +45,7 @@ class DeleteDocumentManagerTest extends TestCase
             ->setIdentifier($data["identifier"])
             ->delete();
 
-        $this->assertTrue($status);
+        $this->assertEquals(['status' => true], $status);
     }
 
     public static function http_cases(): array

@@ -80,11 +80,11 @@ class TextUploadManager extends AbstractManager
     /**
      * Upload the content to the bot service
      *
-     * @return boolean
+     * @return array
      * @throws DataInvalidException
      * @throws InvalidResponseException
      */
-    public function makeRequest(): bool|array
+    public function makeRequest(): array
     {
 
         $this->validateData();
@@ -126,10 +126,10 @@ class TextUploadManager extends AbstractManager
             throw new InvalidResponseException(json_decode($response->getBody()->getContents(), true)['error'] ?? "Error while sending data: error " . $response->getStatusCode());
         }
 
-        return true;
+        return ["status" => true];
     }
 
-    public function upload(): bool
+    public function upload(): array
     {
         return $this->makeRequest();
     }

@@ -51,7 +51,7 @@ class TextUploadManagerTest extends TestCase
             ->setDocumentDate($data["document_date"] ?? "")
             ->upload();
 
-        $this->assertTrue($status);
+        $this->assertEquals(['status' => true], $status);
 
     }
 

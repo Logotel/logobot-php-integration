@@ -12,7 +12,7 @@ class DeleteDocumentManager extends AbstractManager
 
     protected string $identifier;
 
-    public function makeRequest(): bool|array
+    public function makeRequest(): array
     {
         try {
             /** @var \GuzzleHttp\Client */
@@ -46,10 +46,10 @@ class DeleteDocumentManager extends AbstractManager
             throw new CannotDeleteFileException(json_decode($response->getBody()->getContents(), true)['error'] ?? "Cannot delete file");
         }
 
-        return true;
+        return ["status" => true];
     }
 
-    public function delete(): bool
+    public function delete(): array
     {
         return $this->makeRequest();
     }
