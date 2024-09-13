@@ -217,7 +217,6 @@ The ouput will be
 - file-alt
 - file
 
-
 If you want to change the endpoint base url you can change it by:
 
 ```php
