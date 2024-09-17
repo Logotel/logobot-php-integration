@@ -84,6 +84,7 @@ Manager::textUpload()
         ->setLink($link)
         ->setPermissions($permissions)
         ->setLanguage($language)
+        ->setMetadata($metadata)
         ->setDocumentDate($document_date)
         ->upload();
 ```
@@ -116,6 +117,10 @@ The bulk importer functionality will take care of processing multiple file at on
       "permissions",
     ],
     "language": "selected_language",
+    "metadata": {
+        "some": "value",
+        "another": "value",
+    },
     "document_date": "2024-05-29"
   },
   {
@@ -160,6 +165,62 @@ Manager::deleteDocument()
         ->setIdentifier($identifier)
         ->delete();
 ```
+
+If you want to change the endpoint base url you can change it by:
+
+```php
+Manager::deleteDocument()->setApiUrl("https://something.test");
+```
+
+You can also set a custom http client
+
+```php
+Manager::deleteDocument()->setClient(new \GuzzleHttp\Client(...));
+```
+
+## Search engine
+
+Search the most relevant documents based on search query.
+
+`$jwt` is the jwt token generated using [Generating JWT](#generating-jwt)
+
+`$query` is the search query
+
+`$limit` is the **maximum** amount of documents to retrieve
+
+```php
+use Logotel\Logobot\Manager;
+
+Manager::searchEngine()
+        ->setApiKey($api_key)
+        ->setJwt($jwt)
+        ->setQuery($query)
+        ->setLimit($limit)
+        ->search();
+```
+
+The ouput will be
+
+```json
+[
+  {
+     "uuid": "fdb07973-4955-40db-a8d1-d5b8547b4c9b",
+     "name": "my document",
+     "icon": "file-pdf",
+     "distance": 0.253548767,
+     "created_at": "10/10/2024 10:10:10"
+   },
+   ...
+]
+```
+
+`icon` possible values are:
+- file-pdf 
+- file-word
+- file-powerpoint
+- file-excel
+- file-alt
+- file
 
 If you want to change the endpoint base url you can change it by:
 

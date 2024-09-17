@@ -44,11 +44,11 @@ abstract class AbstractManager
                 'headers' => [
                     'x-api-key' => $this->api_key,
                     'Accept' => 'application/json',
-                    'Content-Type' => 'application/json'
-                ]
+                    'Content-Type' => 'application/json',
+                ],
             ]
         );
     }
 
-    abstract public function makeRequest(): bool;
+    abstract public function makeRequest(): array;
 }

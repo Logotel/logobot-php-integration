@@ -74,3 +74,8 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.10.0 - 2024-07-11
 
 - Added is_super_user field to jwt
+
+## 1.11.0 - 2024-09-13
+
+- Added search engine functionality
+- Added metadata to upload text and bulk

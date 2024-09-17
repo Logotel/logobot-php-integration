@@ -28,7 +28,7 @@ class DeleteDocumentManagerTest extends TestCase
     {
 
         $mock = new MockHandler([
-            new Response($status_code, [], json_encode($response_message))
+            new Response($status_code, [], json_encode($response_message)),
         ]);
 
         $handlerStack = HandlerStack::create($mock);
@@ -45,7 +45,7 @@ class DeleteDocumentManagerTest extends TestCase
             ->setIdentifier($data["identifier"])
             ->delete();
 
-        $this->assertTrue($status);
+        $this->assertEquals(['status' => true], $status);
     }
 
     public static function http_cases(): array
@@ -58,9 +58,9 @@ class DeleteDocumentManagerTest extends TestCase
                 ],
                 "status_code" => 200,
                 "response_message" => [
-                    "status" => true
+                    "status" => true,
                 ],
-                "throws" => null
+                "throws" => null,
             ],
             "with invalid identifier" => [
                 "data" => [
@@ -69,9 +69,9 @@ class DeleteDocumentManagerTest extends TestCase
                 ],
                 "status_code" => 200,
                 "response_message" => [
-                    "status" => false
+                    "status" => false,
                 ],
-                "throws" => CannotDeleteFileException::class
+                "throws" => CannotDeleteFileException::class,
             ],
             "with http error" => [
                 "data" => [
@@ -80,9 +80,9 @@ class DeleteDocumentManagerTest extends TestCase
                 ],
                 "status_code" => 500,
                 "response_message" => [
-                    "error" => "Some error"
+                    "error" => "Some error",
                 ],
-                "throws" => InvalidResponseException::class
+                "throws" => InvalidResponseException::class,
             ],
         ];
     }

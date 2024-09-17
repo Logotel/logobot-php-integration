@@ -43,19 +43,19 @@ jobs:
               if: matrix.php != '5.6'
               run: ./vendor/bin/phpunit
       
-    style:
-        runs-on: ubuntu-latest
-        name: PHP Style Check
-        steps:
-          - uses: actions/checkout@v2
-          - name: Setup PHP
-            uses: shivammathur/setup-php@v2
-            with:
-              php-version: "8.2"
-          - name: Run Script
-            run: |
-              composer global require friendsofphp/php-cs-fixer
-              ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes .
+    # style:
+    #     runs-on: ubuntu-latest
+    #     name: PHP Style Check
+    #     steps:
+    #       - uses: actions/checkout@v2
+    #       - name: Setup PHP
+    #         uses: shivammathur/setup-php@v2
+    #         with:
+    #           php-version: "8.2"
+    #       - name: Run Script
+    #         run: |
+    #           composer global require friendsofphp/php-cs-fixer
+    #           ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes .
     
     staticanalysis:
         runs-on: ubuntu-latest

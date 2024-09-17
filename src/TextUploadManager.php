@@ -22,7 +22,10 @@ class TextUploadManager extends AbstractManager
 
     protected array $permissions = [];
 
+    protected ?array $metadata = [];
+
     protected string $document_date = "";
+
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -77,14 +80,21 @@ class TextUploadManager extends AbstractManager
         return $this;
     }
 
+    public function setMetadata(?array $metadata)
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
     /**
      * Upload the content to the bot service
      *
-     * @return boolean
+     * @return array
      * @throws DataInvalidException
      * @throws InvalidResponseException
      */
-    public function makeRequest(): bool
+    public function makeRequest(): array
     {
 
         $this->validateData();
@@ -106,14 +116,15 @@ class TextUploadManager extends AbstractManager
                                 'language' => $this->language,
                                 'content' => $this->content,
                                 'permissions' => $this->permissions,
+                                'metadata' => $this->metadata,
                                 'document_date' => $this->document_date,
-                            ]
-                        ]
-                    ]
+                            ],
+                        ],
+                    ],
                 ]
             );
         } catch (ServerException $th) {
-            if (!$th->hasResponse()) {
+            if (! $th->hasResponse()) {
                 throw new InvalidResponseException("Generic server error");
             }
 
@@ -126,10 +137,10 @@ class TextUploadManager extends AbstractManager
             throw new InvalidResponseException(json_decode($response->getBody()->getContents(), true)['error'] ?? "Error while sending data: error " . $response->getStatusCode());
         }
 
-        return true;
+        return ["status" => true];
     }
 
-    public function upload(): bool
+    public function upload(): array
     {
         return $this->makeRequest();
     }
@@ -152,6 +163,7 @@ class TextUploadManager extends AbstractManager
             'title' => $this->title,
             'language' => $this->language,
             'permissions' => $this->permissions,
+            'metadata' => $this->metadata,
             'document_date' => $this->document_date,
         ];
     }
@@ -167,9 +179,10 @@ class TextUploadManager extends AbstractManager
         $val->field('language')->min_len(2)->max_len(2)->required();
         $val->field('content')->required();
         $val->field('permissions')->array()->required();
+        $val->field('metadata')->array();
         $val->field('document_date')->required();
 
-        if (!$val->is_valid()) {
+        if (! $val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());
         }
 
