@@ -69,6 +69,22 @@ The token default lifetime is 24 hours. You can edit it with ` ->setExpiration(i
 | permissions    | Array(String) | The user's permissions                   |
 | is_super_user  | Bool          | If the user is super user                |
 
+## Authenticate without JWT
+
+In case of JWT too big (>2kb) you have to use `/authenticate` endpoint.
+
+Before proceeding create a JWT as described [here](#generating-jwt)
+
+```php
+use Logotel\Logobot\Manager;
+
+$key = Manager::authenticate()
+        ->setJwt($jwt)
+        ->generate();
+```
+
+The key will be then used instead of jwt
+
 
 ## Uploading text (with link)
 
