@@ -53,7 +53,7 @@ class AuthenticateManager extends AbstractManager
             $response = $client->post(
                 $this->getCompleteUrl(),
                 [
-                    'jwt' => $this->jwt
+                    'jwt' => $this->jwt,
                 ]
             );
         } catch (ServerException $th) {
