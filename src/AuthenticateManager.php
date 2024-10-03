@@ -64,7 +64,7 @@ class AuthenticateManager extends AbstractManager
                     ],
                     'headers' => [
                         'x-client-id' => 'logobot',
-                    ]
+                    ],
                 ]
             );
         } catch (ServerException $th) {

@@ -89,7 +89,7 @@ class SearchEngineManagerTest extends TestCase
                     "limit" => 5,
                     "filters" => [
                         "date_from" => "2022-10-10 10:10:10",
-                    ]
+                    ],
                 ],
                 "status_code" => 200,
                 "response_message" => [
