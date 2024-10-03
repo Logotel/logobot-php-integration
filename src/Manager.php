@@ -9,6 +9,11 @@ class Manager
         return new JwtManager();
     }
 
+    public static function authenticate(): AuthenticateManager
+    {
+        return new AuthenticateManager();
+    }
+
     public static function textUpload()
     {
         return new TextUploadManager();
