@@ -13,6 +13,8 @@ class SearchEngineManager extends AbstractManager
 
     protected string $query;
 
+    protected array $filters = [];
+
     protected ?int $limit = null;
 
     protected string $jwt;
@@ -37,6 +39,14 @@ class SearchEngineManager extends AbstractManager
     {
 
         $this->limit = $limit;
+
+        return $this;
+    }
+
+    public function setFilters(array $filters): self
+    {
+
+        $this->filters = $filters;
 
         return $this;
     }
@@ -103,6 +113,7 @@ class SearchEngineManager extends AbstractManager
         return [
             'query' => $this->query,
             'limit' => $this->limit,
+            'filters' => $this->filters,
             'jwt' => $this->jwt,
         ];
     }
@@ -114,6 +125,7 @@ class SearchEngineManager extends AbstractManager
         $val->field('query')->required()->max_len(500);
         $val->field('jwt')->required();
         $val->field('limit')->numeric();
+        $val->field('filters')->array();
 
         if (! $val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());

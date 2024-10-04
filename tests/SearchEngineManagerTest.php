@@ -68,6 +68,10 @@ class SearchEngineManagerTest extends TestCase
             $manager->setLimit($data["limit"]);
         }
 
+        if (isset($data["filters"])) {
+            $manager->setFilters($data["filters"]);
+        }
+
         $status = $manager->search();
 
         $this->assertEquals($response_message, $status);
@@ -83,6 +87,9 @@ class SearchEngineManagerTest extends TestCase
                     "api_key" => "123456",
                     "query" => "something i want to search",
                     "limit" => 5,
+                    "filters" => [
+                        "date_from" => "2022-10-10 10:10:10",
+                    ],
                 ],
                 "status_code" => 200,
                 "response_message" => [

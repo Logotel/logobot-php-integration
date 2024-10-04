@@ -13,6 +13,12 @@ class AuthenticateManager extends AbstractManager
 
     protected string $jwt;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->api_base_url = "https://api-staging.chatbot.logotel.cloud";
+    }
+
     public function setJwt(string $jwt): self
     {
 
@@ -53,7 +59,12 @@ class AuthenticateManager extends AbstractManager
             $response = $client->post(
                 $this->getCompleteUrl(),
                 [
-                    'jwt' => $this->jwt,
+                    'json' => [
+                        'jwt' => $this->jwt,
+                    ],
+                    'headers' => [
+                        'x-client-id' => 'logobot',
+                    ],
                 ]
             );
         } catch (ServerException $th) {

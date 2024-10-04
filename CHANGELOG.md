@@ -83,3 +83,8 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.12.0 - 2024-10-03
 
 - Added authenticate endpoint
+
+## 1.13.0 - 2024-10-03
+
+- Added filters on search engine
+- Fix error on authenticate route
