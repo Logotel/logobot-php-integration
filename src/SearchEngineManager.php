@@ -81,8 +81,14 @@ class SearchEngineManager extends AbstractManager
             $response = $client->post(
                 $this->getCompleteUrl(),
                 [
-                    'question' => $this->query,
-                    'limit' => $this->limit,
+                    'json' => [
+                        'question' => $this->query,
+                        'limit' => $this->limit,
+                    ],
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->jwt,
+                        'X-Client-Id' => 'jump-4'
+                    ]
                 ]
             );
         } catch (ServerException $th) {
