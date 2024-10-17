@@ -26,6 +26,10 @@ class TextUploadManager extends AbstractManager
 
     protected string $document_date = "";
 
+    protected bool $is_searchable = true;
+
+    protected bool $is_generative = true;
+
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -87,6 +91,21 @@ class TextUploadManager extends AbstractManager
         return $this;
     }
 
+    public function setIsSearchable(bool $is_searchable = true): self
+    {
+        $this->is_searchable = $is_searchable;
+
+        return $this;
+    }
+
+    public function setIsGenerative(bool $is_searchable = true): self
+    {
+
+        $this->is_generative = $is_searchable;
+
+        return $this;
+    }
+
     /**
      * Upload the content to the bot service
      *
@@ -109,16 +128,7 @@ class TextUploadManager extends AbstractManager
                 [
                     'json' => [
                         'data' => [
-                            [
-                                'identifier' => $this->getIdentifier(),
-                                'title' => $this->title,
-                                'link' => $this->link,
-                                'language' => $this->language,
-                                'content' => $this->content,
-                                'permissions' => $this->permissions,
-                                'metadata' => $this->metadata,
-                                'document_date' => $this->document_date,
-                            ],
+                            $this->getPayload(),
                         ],
                     ],
                 ]
@@ -165,6 +175,8 @@ class TextUploadManager extends AbstractManager
             'permissions' => $this->permissions,
             'metadata' => $this->metadata,
             'document_date' => $this->document_date,
+            'is_generative' => $this->is_generative,
+            'is_searchable' => $this->is_searchable,
         ];
     }
 
@@ -181,11 +193,29 @@ class TextUploadManager extends AbstractManager
         $val->field('permissions')->array()->required();
         $val->field('metadata')->array();
         $val->field('document_date')->required();
+        $val->field('is_generative')->required();
+        $val->field('is_searchable')->required();
 
         if (! $val->is_valid()) {
             throw new DataInvalidException($val->displayErrors());
         }
 
         return true;
+    }
+
+    public function getPayload(): array
+    {
+        return [
+            'identifier' => $this->getIdentifier(),
+            'title' => $this->title,
+            'link' => $this->link,
+            'language' => $this->language,
+            'content' => $this->content,
+            'permissions' => $this->permissions,
+            'metadata' => $this->metadata,
+            'document_date' => $this->document_date,
+            'is_searchable' => $this->is_searchable,
+            'is_generative' => $this->is_generative,
+        ];
     }
 }

@@ -102,6 +102,8 @@ Manager::textUpload()
         ->setLanguage($language)
         ->setMetadata($metadata)
         ->setDocumentDate($document_date)
+        ->setIsSearchable(true | false)
+        ->setIsGenerative(true | false)
         ->upload();
 ```
 
@@ -116,6 +118,8 @@ You can also set a custom http client
 ```php
 Manager::textUpload()->setClient(new \GuzzleHttp\Client(...));
 ```
+
+`is_searchable` and `is_generative` are `true` by default
 
 ## Bulk importer
 
@@ -137,7 +141,9 @@ The bulk importer functionality will take care of processing multiple file at on
         "some": "value",
         "another": "value",
     },
-    "document_date": "2024-05-29"
+    "document_date": "2024-05-29",
+    "is_searchable": true,
+    "is_generative": true
   },
   {
     ...
