@@ -87,8 +87,8 @@ class SearchEngineManager extends AbstractManager
                     ],
                     'headers' => [
                         'Authorization' => 'Bearer ' . $this->jwt,
-                        'X-Client-Id' => 'jump-4'
-                    ]
+                        'X-Client-Id' => 'jump-4',
+                    ],
                 ]
             );
         } catch (ServerException $th) {
