@@ -96,3 +96,7 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.13.1 - 2024-10-17
 
 - Fix error on search engine filters
+
+## 1.14.0 - 2024-10-17
+
+- Add is searchable and is generative to document upload

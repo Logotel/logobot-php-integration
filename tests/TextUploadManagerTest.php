@@ -50,6 +50,8 @@ class TextUploadManagerTest extends TestCase
             ->setLanguage($data["language"])
             ->setMetadata($data["metadata"] ?? [])
             ->setDocumentDate($data["document_date"] ?? "")
+            ->setIsGenerative($data["is_generative"] ?? true)
+            ->setIsSearchable($data["is_searchable"] ?? true)
             ->upload();
 
         $this->assertEquals(['status' => true], $status);
@@ -79,6 +81,8 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                     "permissions" => ["a", "b", "c"],
                     "metadata" => ["a" => "b", "b" => "c", "c" => "d"],
                     "document_date" => "2020-01-01",
+                    "is_generative" => true,
+                    "is_searchable" => true,
                 ],
                 "status_code" => 200,
                 "response_message" => [
@@ -113,6 +117,8 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                     "language" => "it",
                     "permissions" => ["a", "b", "c"],
                     "document_date" => "2020-01-01",
+                    "is_generative" => true,
+                    "is_searchable" => true,
                 ],
                 "status_code" => 500,
                 "response_message" => [
@@ -121,5 +127,35 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
                 "throws" => InvalidResponseException::class,
             ],
         ];
+    }
+
+    public function test_payload(): void{
+
+        $manager = new TextUploadManager();
+        $manager
+            ->setApiKey("123456")
+            ->setIdentifier("123456")
+            ->setTitle("a title")
+            ->setContent("some text to upload")
+            ->setLink("https://www.example.com")
+            ->setPermissions(["a", "b", "c"])
+            ->setLanguage("it")
+            ->setDocumentDate("2020-01-01")
+            ->setMetadata(["a" => "b", "b" => "c", "c" => "d"])
+            ->setIsGenerative(true)
+            ->setIsSearchable(true);
+
+        $this->assertEquals([
+            "identifier" => "123456",
+            "title" => "a title",
+            "content" => "some text to upload",
+            "link" => "https://www.example.com",
+            "language" => "it",
+            "permissions" => ["a", "b", "c"],
+            "document_date" => "2020-01-01",
+            "is_generative" => true,
+            "is_searchable" => true,
+            "metadata" => ["a" => "b", "b" => "c", "c" => "d"],
+        ], $manager->getPayload());
     }
 }
