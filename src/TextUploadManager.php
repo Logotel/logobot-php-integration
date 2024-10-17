@@ -98,7 +98,8 @@ class TextUploadManager extends AbstractManager
         return $this;
     }
 
-    public function setIsGenerative(bool $is_searchable = true): self{
+    public function setIsGenerative(bool $is_searchable = true): self
+    {
 
         $this->is_generative = $is_searchable;
 
@@ -127,7 +128,7 @@ class TextUploadManager extends AbstractManager
                 [
                     'json' => [
                         'data' => [
-                            $this->getPayload()
+                            $this->getPayload(),
                         ],
                     ],
                 ]

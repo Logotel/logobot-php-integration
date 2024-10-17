@@ -129,7 +129,8 @@ Illius oritur primum quanto vacuitate? Has loco pácem quisquam, variis vétéru
         ];
     }
 
-    public function test_payload(): void{
+    public function test_payload(): void
+    {
 
         $manager = new TextUploadManager();
         $manager
