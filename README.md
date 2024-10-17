@@ -204,6 +204,12 @@ Search the most relevant documents based on search query.
 
 `$limit` is the **maximum** amount of documents to retrieve
 
+`$filters` is an array of available filters. At the moment are supported:
+
+| Filter key     | Type          | Description                              | Example    |
+|----------------|---------------|------------------------------------------|------------|
+| date_from      | Date          | Filter documents based on creation date  | 2024-06-24 |
+
 ```php
 use Logotel\Logobot\Manager;
 
@@ -212,6 +218,7 @@ Manager::searchEngine()
         ->setJwt($jwt)
         ->setQuery($query)
         ->setLimit($limit)
+        ->setFilters($filters)
         ->search();
 ```
 

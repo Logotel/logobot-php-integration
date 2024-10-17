@@ -84,6 +84,7 @@ class SearchEngineManager extends AbstractManager
                     'json' => [
                         'question' => $this->query,
                         'limit' => $this->limit,
+                        'filter' => $this->filters,
                     ],
                     'headers' => [
                         'Authorization' => 'Bearer ' . $this->jwt,

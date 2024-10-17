@@ -88,3 +88,11 @@ All notable changes to `logobot-php-integration` will be documented in this file
 
 - Added filters on search engine
 - Fix error on authenticate route
+
+## 1.13.1 - 2024-10-17
+
+- Fix error search engine authentication
+
+## 1.13.0 - 2024-10-17
+
+- Fix error on search engine filters
