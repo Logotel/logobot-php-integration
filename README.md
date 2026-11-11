@@ -57,7 +57,9 @@ The property (bool) can set if the user has high privilege. The privileges will 
 
 ### Token expiration
 
-The token default lifetime is 24 hours. You can edit it with ` ->setExpiration(int $expiration)`. The expiration time is in seconds (deafult 60 * 60 * 24)
+The token default lifetime is 1 hour. You can edit it with ` ->setExpiration(int $expiration)`. The expiration time is in seconds (default 60 * 60).
+
+The widget does not renew the token by itself: if it expires while the user is on the page, the page must be reloaded. Align the expiration with your application session lifetime, keeping it as short as possible: a token that is not revoked stays valid until it expires.
 
 ### User payload
 
@@ -68,6 +70,14 @@ The token default lifetime is 24 hours. You can edit it with ` ->setExpiration(i
 | license        | String        | The bot license                          |
 | permissions    | Array(String) | The user's permissions                   |
 | is_super_user  | Bool          | If the user is super user                |
+
+The library also adds these claims automatically:
+
+| Claim | Type    | Description                                                        |
+|-------|---------|--------------------------------------------------------------------|
+| jti   | String  | Unique token id (UUID v4), different for each generated token. Required to [revoke](#revoking-a-token) the token |
+| iat   | Integer | Issue time (unix timestamp)                                        |
+| exp   | Integer | Expiration time (unix timestamp), `iat` + expiration               |
 
 ## Authenticate without JWT
 
@@ -84,6 +94,32 @@ $key = Manager::authenticate()
 ```
 
 The key will be then used instead of jwt
+
+## Revoking a token
+
+Revoke a token (e.g. on logout) so the APIs reject it from the next request on. Call it from your backend, before invalidating the user session.
+
+`$jwt` is the token to revoke: the JWT generated with [Generating JWT](#generating-jwt), or the key returned by the [authenticate endpoint](#authenticate-without-jwt). Revoking a JWT also invalidates the key obtained from it.
+
+```php
+use Logotel\Logobot\Manager;
+
+$revoked = Manager::revokeToken()
+        ->setApiUrl($api_url)
+        ->setJwt($jwt)
+        ->revoke();
+```
+
+| API response | Result                                                                  |
+|--------------|-------------------------------------------------------------------------|
+| 204          | Returns `true`: the token has been revoked                              |
+| 403          | Returns `false`: the token was already unusable (revoked, expired or invalid) |
+| 422          | Throws `InvalidResponseException`: the token has no valid `jti` and cannot be revoked |
+| 429 / other  | Throws `InvalidResponseException`                                       |
+
+In both non-throwing cases the token can no longer be used. A failed revocation should not block the user logout: catch the exception, log it and go on.
+
+Tokens can be revoked only one at a time, so generate one token per user session, store it in session and reuse it until it is about to expire: on logout you know which token to revoke.
 
 
 ## Uploading text (with link)
