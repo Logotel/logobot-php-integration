@@ -100,3 +100,9 @@ All notable changes to `logobot-php-integration` will be documented in this file
 ## 1.14.0 - 2024-10-17
 
 - Add is searchable and is generative to document upload
+
+## 1.15.0 - 2026-11-11
+
+- Default JWT expiration lowered from 24 hours to 1 hour
+- Added `jti` (UUID v4) and `iat` claims to the generated JWT
+- Added token revocation (`Manager::revokeToken()`)

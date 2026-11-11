@@ -42,7 +42,7 @@ class JwtManager
     /**
      * @param int $expiration
      */
-    protected int $expiration = 60 * 60 * 24;
+    protected int $expiration = 60 * 60;
 
     public function setKeyFromFile(string $file_path): self
     {
@@ -144,13 +144,29 @@ class JwtManager
 
     protected function getPayload(): array
     {
+        $now = time();
+
         return [
             "identifier" => $this->identifier,
             "email" => $this->email,
             "bot_license" => $this->license,
             "permissions" => $this->permissions,
             "is_super_user" => $this->is_super_user,
-            'exp' => time() + $this->expiration,
+            'jti' => $this->generateJti(),
+            'iat' => $now,
+            'exp' => $now + $this->expiration,
         ];
+    }
+
+    /**
+     * Unique token id (UUID v4), required by the API to revoke the token.
+     */
+    protected function generateJti(): string
+    {
+        $bytes = random_bytes(16);
+        $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+        $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));
     }
 }

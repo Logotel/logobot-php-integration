@@ -14,6 +14,11 @@ class Manager
         return new AuthenticateManager();
     }
 
+    public static function revokeToken(): RevokeTokenManager
+    {
+        return new RevokeTokenManager();
+    }
+
     public static function textUpload()
     {
         return new TextUploadManager();
