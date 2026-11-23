@@ -150,4 +150,58 @@ class JwtManagerTest extends TestCase
         }
 
     }
+
+    public function test_jwt_contains_jti_and_iat()
+    {
+        $before = time();
+
+        $jwt = Manager::jwt()
+            ->setKey(file_get_contents(__DIR__ . '/fixtures/private_key.txt'))
+            ->setLicense('license')
+            ->setEmail('test@email.com')
+            ->setIdentifier('12345')
+            ->setPermissions(['admin'])
+            ->generate();
+
+        $decoded = JWT::decode($jwt, new Key(file_get_contents(__DIR__ . '/fixtures/public_key.txt'), 'RS256'));
+
+        $this->assertMatchesRegularExpression(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
+            $decoded->jti
+        );
+        $this->assertGreaterThanOrEqual($before, $decoded->iat);
+        $this->assertLessThanOrEqual(time(), $decoded->iat);
+    }
+
+    public function test_jwt_default_expiration_is_one_hour()
+    {
+        $jwt = Manager::jwt()
+            ->setKey(file_get_contents(__DIR__ . '/fixtures/private_key.txt'))
+            ->setLicense('license')
+            ->setEmail('test@email.com')
+            ->setIdentifier('12345')
+            ->setPermissions(['admin'])
+            ->generate();
+
+        $decoded = JWT::decode($jwt, new Key(file_get_contents(__DIR__ . '/fixtures/public_key.txt'), 'RS256'));
+
+        $this->assertEquals(60 * 60, $decoded->exp - $decoded->iat);
+    }
+
+    public function test_each_jwt_has_a_different_jti()
+    {
+        $manager = Manager::jwt()
+            ->setKey(file_get_contents(__DIR__ . '/fixtures/private_key.txt'))
+            ->setLicense('license')
+            ->setEmail('test@email.com')
+            ->setIdentifier('12345')
+            ->setPermissions(['admin']);
+
+        $publicKey = new Key(file_get_contents(__DIR__ . '/fixtures/public_key.txt'), 'RS256');
+
+        $first = JWT::decode($manager->generate(), $publicKey);
+        $second = JWT::decode($manager->generate(), $publicKey);
+
+        $this->assertNotEquals($first->jti, $second->jti);
+    }
 }
