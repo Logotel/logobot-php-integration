@@ -17,7 +17,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^5.6||^7.4||^8.0",
-        "firebase/php-jwt": "^6.10 || ^5.5.1",
+        "firebase/php-jwt": "^7.0 || ^6.10 || ^5.5.1",
         "guzzlehttp/guzzle": "^7.0 || ^6.0"
     },
     "require-dev": {
@@ -26,5 +26,14 @@
         "friendsofphp/php-cs-fixer": "^3.50",
         "mockery/mockery": "^1.6",
         "symfony/var-dumper": "^5.0||^6.0||^7.0"
+    },
+    "config": {
+        "policy": {
+            "advisories": {
+                "ignore-id": [
+                    "PKSA-y2cr-5h3j-g3ys"
+                ]
+            }
+        }
     }
 }

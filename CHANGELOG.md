@@ -106,3 +106,4 @@ All notable changes to `logobot-php-integration` will be documented in this file
 - Default JWT expiration lowered from 24 hours to 1 hour
 - Added `jti` (UUID v4) and `iat` claims to the generated JWT
 - Added token revocation (`Manager::revokeToken()`)
+- Allow firebase/php-jwt ^7.0 (versions < 7.0 are flagged by security advisories)
